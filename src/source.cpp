@@ -12,6 +12,18 @@
 using namespace accounting;
 
 
+// TODO: refactor 
+uptr<std::vector<Account>> static create_account_vector_pointer() {
+  auto acc_vec_ptr = std::make_unique<std::vector<Account>>();
+  return acc_vec_ptr;
+}
+
+uptr<std::vector<Transfer>> static create_transfer_vector_pointer() {
+  auto tr_vec_ptr = std::make_unique<std::vector<Transfer>>();
+  return tr_vec_ptr;
+}
+
+
 int main() {
   setlocale(LC_ALL, "");
 
@@ -22,22 +34,19 @@ int main() {
 
   // ?
   try {
-    auto accounts = std::vector<Account>();
-    auto transfers = std::vector<Transfer>();
+    auto accounts_ptr = create_account_vector_pointer();
+    auto transfers_ptr = create_transfer_vector_pointer();
     FileRepository file_repo("accounts.json", "transfers.json");
     if (file_repo.accounts_file_exists())
-      accounts = file_repo.load_accounts();
+      *accounts_ptr = file_repo.load_accounts();
     if (file_repo.transfers_file_exists())
-      transfers = file_repo.load_transfers();
-    for (auto acc : accounts) cout << json(acc);
-    for (auto tr : transfers) cout << json(tr);
-
+      *transfers_ptr = file_repo.load_transfers();
+    for (auto acc : *accounts_ptr) cout << json(acc);
+    for (auto tr : *transfers_ptr) cout << json(tr);
 
     // Создаем тестовые аккаунты
-    auto account1 = Account(1, Currency::USD, "Alice Savings",
-                                              1000, AccountType::PASSIVE);
-    auto account2 = Account(2, Currency::USD, "Bob Checking",
-                                              500, AccountType::ACTIVE);
+    auto account1 = Account(1, Currency::USD, "Alice Savings", 1000, AccountType::PASSIVE);
+    auto account2 = Account(2, Currency::USD, "Bob Checking", 500, AccountType::ACTIVE);
 
     accounts.push_back(account1);
     accounts.push_back(account2);
