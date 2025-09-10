@@ -1,61 +1,47 @@
 // file.h
 #pragma once
 
-
 #include <filesystem>
 #include <fstream>
-
 
 #include "common/common.h"
 #include "serialization/json_serializers.h"
 
-
 namespace accounting {
 template <typename T>
 // Добавить индексирование
-// Исправить include write/read 
-class File {  
+// Исправить include write/read
+class File {
  private:
   std::filesystem::path file_path_;
 
-
   static_assert(
       std::is_same<T, Account>::value || std::is_same<T, Transfer>::value,
-      "File class can only be instantiated with Account or Transfer types"
-    );
-
+      "File class can only be instantiated with Account or Transfer types");
 
   template <typename R, typename F>
   R with_istream(F&& func);
   template <typename R, typename F>
   R with_ostream(F&& func, std::ios_base::openmode mode = std::ios_base::out |
                                                           std::ios_base::trunc);
- 
 
  public:
   File(const string& file_path) : file_path_(file_path) {}
+
   ~File() = default;
 
-
   bool file_exists() const { return std::filesystem::exists(file_path_); }
-
 
   bool write(const T& obj);
   bool write(const std::vector<T>& objs);
 
-
   std::optional<T> read_one();
   std::vector<T> read_all();
 
-
   bool append(const T& obj);
-  bool append(const std::vector<T>& objs);  
+  bool append(const std::vector<T>& objs);
 };
-}  // namespace accounting
-
-
-
-
+} // namespace accounting
 
 namespace accounting {
 // Добавить проверку сигнатуры лямбды
@@ -161,4 +147,4 @@ bool File<T>::append(const std::vector<T>& objs) {
   existing_data.insert(existing_data.end(), objs.begin(), objs.end());
   return write(existing_data);
 }
-}  // namespace accounting
+} // namespace accounting

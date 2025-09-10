@@ -1,5 +1,3 @@
 #include "logging.h"
 
-namespace accounting {
-
-}
+namespace accounting {}

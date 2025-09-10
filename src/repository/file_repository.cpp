@@ -1,11 +1,13 @@
-//file_reposotpry.cpp
+// file_reposotpry.cpp
 #include "file_repository.h"
+
 #include "files/file.h"
 
 namespace accounting {
 FileRepository::FileRepository(std::string accounts_path,
                                std::string transfers_path)
     : accounts_path_{accounts_path}, transfers_path_{transfers_path} {}
+
 FileRepository::FileRepository() : FileRepository("", "") {}
 
 void FileRepository::save_accounts(const std::vector<Account>& accounts) {
@@ -29,4 +31,4 @@ std::vector<Transfer> FileRepository::load_transfers(void) {
   return file.read_all();
   return std::vector<Transfer>();
 }
-}
+} // namespace accounting

@@ -42,4 +42,4 @@ void from_json(const nlohmann::json& j, Account& obj);
 void to_json(nlohmann::json& j, const Transfer& obj);
 void from_json(const nlohmann::json& j, Transfer& obj);
 
-}  // namespace accounting
+} // namespace accounting

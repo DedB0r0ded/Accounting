@@ -14,22 +14,22 @@ class Account {
   std::mutex mutex_;
 
  public:
-  // Конструкторы
+  // Ctors
   Account();
   Account(id_t id, Currency currency, string name, i32 balance,
           AccountType type);
   Account(const Account& other);
   Account(Account&& other) noexcept;
 
-  // Операторы сравнения
+  // Comparison ops
   bool operator==(const Account& other) const;
   bool operator!=(const Account& other) const;
 
-  // Операторы присваивания
+  // Assignment ops
   Account& operator=(const Account& other);
   Account& operator=(Account&& other) noexcept;
 
-  // Геттеры
+  // Getters
   id_t id() const;
   Currency currency() const;
   string name() const;
@@ -37,18 +37,18 @@ class Account {
   AccountType type() const;
   std::mutex& get_mutex();
 
-  // Сеттеры
+  // Setters
   void set_id(id_t value);
   void set_currency(Currency value);
   void set_name(string value);
   void set_balance(i32 value);
   void set_type(AccountType value);
 
-  // Методы для работы с балансом
+  // Balance methods
   bool increase_balance(i32 amount);
   bool decrease_balance(i32 amount);
 
-  // Оператор вывода
+  // Output op
   friend std::ostream& operator<<(std::ostream& os, const Account& account);
 };
-}  // namespace accounting
+} // namespace accounting

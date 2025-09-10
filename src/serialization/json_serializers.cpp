@@ -28,7 +28,6 @@ bool is_valid_json_transfer(const nlohmann::json& j) {
   return false;
 }
 
-
 void to_json(nlohmann::json& j, const TransferStateSwitch& state_switch) {
   j = {{"validated", state_switch.is_validated()},
        {"started", state_switch.is_started()},
@@ -51,7 +50,6 @@ void from_json(const nlohmann::json& j, TransferStateSwitch& state_switch) {
   state_switch.set_interrupted(j.at("interrupted").get<bool>());
 }
 
-
 void to_json(nlohmann::json& j, const TransferState& transfer_state) {
   const auto state_switch = TransferStateSwitch(transfer_state);
   to_json(j, state_switch);
@@ -62,7 +60,6 @@ void from_json(const nlohmann::json& j, TransferState& transfer_state) {
   from_json(j, state_switch);
   transfer_state = state_switch.get_state();
 }
-
 
 void to_json(nlohmann::json& j, const Account& obj) {
   j = {{"id", obj.id()},
@@ -84,7 +81,6 @@ void from_json(const nlohmann::json& j, Account& obj) {
   obj.set_type(j.at("type").get<AccountType>());
   obj.set_currency(j.at("currency").get<Currency>());
 }
-
 
 void to_json(nlohmann::json& j, const Transfer& obj) {
   j = {{"id", obj.id()},
@@ -113,4 +109,4 @@ void from_json(const nlohmann::json& j, Transfer& obj) {
   obj.set_credit_amount(j.at("credit_amount").get<lid_t>());
 }
 
-}  // namespace accounting
+} // namespace accounting

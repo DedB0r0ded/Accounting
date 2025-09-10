@@ -22,7 +22,6 @@ TransferState& operator&=(TransferState& a, TransferState b) {
   return a;
 }
 
-
 // Constructors
 TransferStateSwitch::TransferStateSwitch() : state_{TransferState::NONE} {}
 
@@ -31,14 +30,12 @@ TransferStateSwitch::TransferStateSwitch(TransferState state) : state_{state} {}
 TransferStateSwitch::TransferStateSwitch(const TransferStateSwitch& other)
     : state_{other.state_} {}
 
-
 // Assignment operator
 TransferStateSwitch& TransferStateSwitch::operator=(
     const TransferStateSwitch other) {
   state_ = other.state_;
   return *this;
 }
-
 
 // Methods for VALIDATED state
 void TransferStateSwitch::set_validated(bool val) {
@@ -52,7 +49,6 @@ bool TransferStateSwitch::is_validated() const {
   return (state_ & TransferState::VALIDATED) == TransferState::VALIDATED;
 }
 
-
 // Methods for STARTED state
 void TransferStateSwitch::set_started(bool val) {
   if (val)
@@ -64,7 +60,6 @@ void TransferStateSwitch::set_started(bool val) {
 bool TransferStateSwitch::is_started() const {
   return (state_ & TransferState::STARTED) == TransferState::STARTED;
 }
-
 
 // Methods for CREDIT_DECREASED state
 void TransferStateSwitch::set_credit_decreased(bool val) {
@@ -79,7 +74,6 @@ bool TransferStateSwitch::was_credit_decreased() const {
          TransferState::CREDIT_DECREASED;
 }
 
-
 // Methods for DEBIT_INCREASED state
 void TransferStateSwitch::set_debit_increased(bool val) {
   if (val)
@@ -93,7 +87,6 @@ bool TransferStateSwitch::was_debit_increased() const {
          TransferState::DEBIT_INCREASED;
 }
 
-
 // Methods for FINISHED state
 void TransferStateSwitch::set_finished(bool val) {
   if (val)
@@ -106,7 +99,6 @@ bool TransferStateSwitch::is_finished() const {
   return (state_ & TransferState::FINISHED) == TransferState::FINISHED;
 }
 
-
 // Methods for INTERRUPTED state
 void TransferStateSwitch::set_interrupted(bool val) {
   if (val)
@@ -118,7 +110,6 @@ void TransferStateSwitch::set_interrupted(bool val) {
 bool TransferStateSwitch::was_interrupted() const {
   return (state_ & TransferState::INTERRUPTED) == TransferState::INTERRUPTED;
 }
-
 
 // Composite state checks
 bool TransferStateSwitch::is_completed() const {
@@ -138,7 +129,6 @@ bool TransferStateSwitch::is_pending() const {
   return is_validated() && !is_started();
 }
 
-
 // General state management
 void TransferStateSwitch::reset() {
   state_ = TransferState::NONE;
@@ -152,4 +142,4 @@ void TransferStateSwitch::set_state(TransferState state) {
   state_ = state;
 }
 
-}  // namespace accounting
+} // namespace accounting

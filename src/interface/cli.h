@@ -5,7 +5,5 @@
 #include "entities/transfer.h"
 
 namespace accounting {
-	class CLI {
-
-	};
-}
+class CLI {};
+} // namespace accounting

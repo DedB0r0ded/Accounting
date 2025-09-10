@@ -21,13 +21,11 @@ enum class TransferState : i8 {
   NOT_INTERRUPTED = ~(1 << 5)
 };
 
-
 // Bitwise operators for flags
 TransferState operator|(TransferState a, TransferState b);
 TransferState& operator|=(TransferState& a, TransferState b);
 TransferState operator&(TransferState a, TransferState b);
 TransferState& operator&=(TransferState& a, TransferState b);
-
 
 class TransferStateSwitch {
  private:
@@ -39,10 +37,8 @@ class TransferStateSwitch {
   TransferStateSwitch(TransferState state);
   TransferStateSwitch(const TransferStateSwitch& other);
 
-
   // Assigning operator
   TransferStateSwitch& operator=(const TransferStateSwitch other);
-
 
   // Methods for different states
   void set_validated(bool val);
@@ -63,16 +59,14 @@ class TransferStateSwitch {
   void set_interrupted(bool val);
   bool was_interrupted() const;
 
-  
   // Composite state checks
   bool is_completed() const;
   bool is_in_progress() const;
   bool is_pending() const;
-
 
   // General state management
   void reset();
   TransferState get_state() const;
   void set_state(TransferState state);
 };
-}  // namespace accounting
+} // namespace accounting
