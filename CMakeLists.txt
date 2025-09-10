@@ -25,7 +25,7 @@ set(SRC_DIR "${CMAKE_SOURCE_DIR}/src")
 
 # All executables as a list
 set(SOURCES
-  "${SRC_DIR}/source.cpp"
+  "${SRC_DIR}/common/common.cpp"
   #"${SRC_DIR}/common/logger.cpp"
   #"${SRC_DIR}/common/log_scope.cpp"
   "${SRC_DIR}/entities/account.cpp"
@@ -35,6 +35,7 @@ set(SOURCES
   "${SRC_DIR}/repository/file_repository.cpp"
   "${SRC_DIR}/serialization/json_serializers.cpp"
   "${SRC_DIR}/interface/cli.cpp"
+  "${SRC_DIR}/source.cpp"
 )
 
 

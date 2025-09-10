@@ -73,7 +73,8 @@ enum class AccountFlags : i8 {
 
 
 // Math
-static bool is_close_double(double a, double b, double rel_tol = 1e-6,
+// Add tests
+inline bool is_close_double(double a, double b, double rel_tol = 1e-6,
                             double abs_tol = 0.0) {
   double a_abs = std::abs(a);
   double b_abs = std::abs(b);
@@ -82,7 +83,10 @@ static bool is_close_double(double a, double b, double rel_tol = 1e-6,
 
 
 // Time
-static tm to_tm(const time_t& src) {
+// TODO: 
+// add tests for all functions; 
+// add JSON parsers.
+inline tm to_tm(const time_t& src) {
 #ifdef ACCOUNTING_THREAD_SAFE_TIME
   tm result{};
 #ifdef _WIN32
@@ -96,44 +100,19 @@ static tm to_tm(const time_t& src) {
 #endif
 }
 
-static time_t get_current_time() {
+inline time_t get_current_time() {
   return system_clock::to_time_t(system_clock::now());
 }
 
-static tm get_current_time_tm() {
+inline tm get_current_time_tm() {
   return to_tm(get_current_time());
 }
 
 
 // Enum parsing
-inline string to_string(Currency currency) {
-  switch (currency) {
-    case Currency::USD: return "USD";
-    case Currency::MYR: return "MYR";
-    case Currency::BYN: return "BYN";
-    case Currency::NONE: return "NONE";
-    default: return "Error. Invalid currency value.";
-  }
-}
+// Implementation in `common.cpp`
+string to_string(Currency currency);
+string to_full_string(Currency currency);
+string to_string(AccountType account_type);
 
-inline string to_full_string(Currency currency) {
-  switch (currency) {
-    case Currency::USD: return "US Dollars";
-    case Currency::MYR: return "Malaysian Ringgits";
-    case Currency::BYN: return "Belarussian Rubles";
-    case Currency::NONE: return "NO CURRENCY";
-    default: return "Error. Invalid currency value.";
-  }
-}
-
-inline string to_string(AccountType account_type) {
-  string account_type_name;
-  switch (account_type) {
-    case AccountType::PASSIVE: return "Passive";
-    case AccountType::ACTIVE: return "Active";
-    case AccountType::NONE: return "NONE";
-    default: return "Error. Invalid account type value.";
-  }
-  return account_type_name;
-}
 } // namespace accounting
