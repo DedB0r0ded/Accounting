@@ -21,7 +21,7 @@
 
 
 // Defines
-#define ACCOUNTING_SAFE_TIME
+#define ACCOUNTING_THREAD_SAFE_TIME
 
 
 using namespace std::string_literals;
@@ -83,7 +83,7 @@ static bool is_close_double(double a, double b, double rel_tol = 1e-6,
 
 // Time
 static tm to_tm(const time_t& src) {
-#ifdef ACCOUNTING_SAFE_TIME
+#ifdef ACCOUNTING_THREAD_SAFE_TIME
   tm result{};
 #ifdef _WIN32
   gmtime_s(&result, &src);
@@ -106,65 +106,33 @@ static tm get_current_time_tm() {
 
 
 // Enum parsing
-static string to_string(Currency currency) {
-  string currency_name;
+inline string to_string(Currency currency) {
   switch (currency) {
-    case Currency::USD:
-      currency_name = "USD";
-      break;
-    case Currency::MYR:
-      currency_name = "MYR";
-      break;
-    case Currency::BYN:
-      currency_name = "BYN";
-      break;
-    case Currency::NONE:
-      currency_name = "NONE";
-      break;
-    default:
-      currency_name = "Error. Invalid currency value.";
-      break;
+    case Currency::USD: return "USD";
+    case Currency::MYR: return "MYR";
+    case Currency::BYN: return "BYN";
+    case Currency::NONE: return "NONE";
+    default: return "Error. Invalid currency value.";
   }
-  return currency_name;
 }
 
-static string to_full_string(Currency currency) {
-  string currency_name;
+inline string to_full_string(Currency currency) {
   switch (currency) {
-    case Currency::USD:
-      currency_name = "US Dollars";
-      break;
-    case Currency::MYR:
-      currency_name = "Malaysian Ringgits";
-      break;
-    case Currency::BYN:
-      currency_name = "Belarussian Rubles";
-      break;
-    case Currency::NONE:
-      currency_name = "NO CURRENCY";
-      break;
-    default:
-      currency_name = "Error. Invalid currency value.";
-      break;
+    case Currency::USD: return "US Dollars";
+    case Currency::MYR: return "Malaysian Ringgits";
+    case Currency::BYN: return "Belarussian Rubles";
+    case Currency::NONE: return "NO CURRENCY";
+    default: return "Error. Invalid currency value.";
   }
-  return currency_name;
 }
 
-static string to_string(AccountType account_type) {
+inline string to_string(AccountType account_type) {
   string account_type_name;
   switch (account_type) {
-    case AccountType::PASSIVE:
-      account_type_name = "Passive";
-      break;
-    case AccountType::ACTIVE:
-      account_type_name = "Active";
-      break;
-    case AccountType::NONE:
-      account_type_name = "NONE";
-      break;
-    default:
-      account_type_name = "Error. Invalid account type value.";
-      break;
+    case AccountType::PASSIVE: return "Passive";
+    case AccountType::ACTIVE: return "Active";
+    case AccountType::NONE: return "NONE";
+    default: return "Error. Invalid account type value.";
   }
   return account_type_name;
 }
