@@ -1,5 +1,8 @@
 #pragma once
 
+
+#define JSON_NULL "null"
+
 #define JSON_ACCOUNT_ID_KEY "id"
 #define JSON_ACCOUNT_NAME_KEY "name"
 #define JSON_ACCOUNT_BALANCE_KEY "balance"
@@ -9,7 +12,7 @@
 #define JSON_TRANSFER_STATE_SWITCH_VALIDATED_KEY "validated"
 #define JSON_TRANSFER_STATE_SWITCH_STARTED_KEY "started"
 #define JSON_TRANSFER_STATE_SWITCH_CREDIT_DECREASED_KEY "credit_decreased"
-#define JSON_TRANSFER_STATE_SWITCH_DEBIT_INCRESED_KEY "debit_increased"
+#define JSON_TRANSFER_STATE_SWITCH_DEBIT_INCREASED_KEY "debit_increased"
 #define JSON_TRANSFER_STATE_SWITCH_FINISHED_KEY "finished"
 #define JSON_TRANSFER_STATE_SWITCH_INTERRUPTED_KEY "interrupted"
 
@@ -22,3 +25,4 @@
 #define JSON_TRANSFER_DEBIT_AMOUNT_KEY "debit_amount"
 #define JSON_TRANSFER_CREDIT_ACCOUNT_KEY "credit_account"
 #define JSON_TRANSFER_CREDIT_AMOUNT_KEY "credit_amount"
+
