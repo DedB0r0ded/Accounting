@@ -3,38 +3,50 @@
 
 #include <sstream>
 
-
 // Validations currently check only the presence of all fields
-// TODO: Add value validation
-// Create tests
+// TODO: Add value validation for Transfer and Account, maybe for
+// TransferStateSwitch Create tests
 namespace accounting {
+
+bool has_all_fields(const nlohmann::json& j,
+                    std::initializer_list<const char*> fields) {
+  for (auto field : fields)
+    if (!j.contains(field)) return false;
+  return true;
+}
 
 void to_json(nlohmann::json& j, const tm& date_time) {
   j = to_string(date_time);
 }
 
-void from_json(const nlohmann::json& j, tm& date_time) {
+void from_json(const nlohmann::json& j, tm& t) {
   // TODO: FINISH. ADD OPT VALIDATION
   // TODO: ADD UTC-MAKER TO COMMON.H
-  date_time = from_string(j).value();
+  t = from_string(j).value();
 }
 
-// TransferStateSwitch validation & parsing
+// TransferStateSwitch
 bool is_valid_json_transfer_state_switch(const nlohmann::json& j) {
-  if (j.contains("validated") && j.contains("started") &&
-      j.contains("credit_decreased") && j.contains("debit_increase") &&
-      j.contains("currency"))
-    return true;
-  return false;
+  bool has_all =
+      has_all_fields(j, {JSON_TRANSFER_STATE_SWITCH_VALIDATED_KEY,
+                         JSON_TRANSFER_STATE_SWITCH_STARTED_KEY,
+                         JSON_TRANSFER_STATE_SWITCH_CREDIT_DECREASED_KEY,
+                         JSON_TRANSFER_STATE_SWITCH_DEBIT_INCRESED_KEY,
+                         JSON_TRANSFER_STATE_SWITCH_FINISHED_KEY,
+                         JSON_TRANSFER_STATE_SWITCH_INTERRUPTED_KEY});
+  return has_all;
 }
 
 void to_json(nlohmann::json& j, const TransferStateSwitch& state_switch) {
-  j = {{"validated", state_switch.is_validated()},
-       {"started", state_switch.is_started()},
-       {"credit_decreased", state_switch.was_credit_decreased()},
-       {"debit_increased", state_switch.was_debit_increased()},
-       {"finished", state_switch.is_finished()},
-       {"interrupted", state_switch.was_interrupted()}};
+  j = {{JSON_TRANSFER_STATE_SWITCH_VALIDATED_KEY, state_switch.is_validated()},
+       {JSON_TRANSFER_STATE_SWITCH_STARTED_KEY, state_switch.is_started()},
+       {JSON_TRANSFER_STATE_SWITCH_CREDIT_DECREASED_KEY,
+        state_switch.was_credit_decreased()},
+       {JSON_TRANSFER_STATE_SWITCH_DEBIT_INCRESED_KEY,
+        state_switch.was_debit_increased()},
+       {JSON_TRANSFER_STATE_SWITCH_FINISHED_KEY, state_switch.is_finished()},
+       {JSON_TRANSFER_STATE_SWITCH_INTERRUPTED_KEY,
+        state_switch.was_interrupted()}};
 }
 
 void from_json(const nlohmann::json& j, TransferStateSwitch& state_switch) {
@@ -42,16 +54,21 @@ void from_json(const nlohmann::json& j, TransferStateSwitch& state_switch) {
     state_switch.reset();
     return;
   }
-  state_switch.set_validated(j.at("validated").get<bool>());
-  state_switch.set_started(j.at("started").get<bool>());
-  state_switch.set_credit_decreased(j.at("credit_decreased").get<bool>());
-  state_switch.set_debit_increased(j.at("debit_increased").get<bool>());
-  state_switch.set_finished(j.at("finished").get<bool>());
-  state_switch.set_interrupted(j.at("interrupted").get<bool>());
+  state_switch.set_validated(
+      j.at(JSON_TRANSFER_STATE_SWITCH_VALIDATED_KEY).get<bool>());
+  state_switch.set_started(
+      j.at(JSON_TRANSFER_STATE_SWITCH_STARTED_KEY).get<bool>());
+  state_switch.set_credit_decreased(
+      j.at(JSON_TRANSFER_STATE_SWITCH_CREDIT_DECREASED_KEY).get<bool>());
+  state_switch.set_debit_increased(
+      j.at(JSON_TRANSFER_STATE_SWITCH_DEBIT_INCRESED_KEY).get<bool>());
+  state_switch.set_finished(
+      j.at(JSON_TRANSFER_STATE_SWITCH_FINISHED_KEY).get<bool>());
+  state_switch.set_interrupted(
+      j.at(JSON_TRANSFER_STATE_SWITCH_INTERRUPTED_KEY).get<bool>());
 }
 
-
-// TransferState parsing
+// TransferState. Constructs TransferStateSwitch before parsing
 void to_json(nlohmann::json& j, const TransferState& transfer_state) {
   const auto state_switch = TransferStateSwitch(transfer_state);
   to_json(j, state_switch);
@@ -63,21 +80,20 @@ void from_json(const nlohmann::json& j, TransferState& transfer_state) {
   transfer_state = state_switch.get_state();
 }
 
-
-// Account validation & parsing
+// Account
 bool is_valid_json_account(const nlohmann::json& j) {
-  if (j.contains("id") && j.contains("name") && j.contains("balance") &&
-      j.contains("type") && j.contains("currency"))
-    return true;
-  return false;
+  bool has_all = has_all_fields(
+      j, {JSON_ACCOUNT_ID_KEY, JSON_ACCOUNT_NAME_KEY, JSON_ACCOUNT_BALANCE_KEY,
+          JSON_ACCOUNT_TYPE_KEY, JSON_ACCOUNT_CURRENCY_KEY});
+  return has_all;
 }
 
 void to_json(nlohmann::json& j, const Account& obj) {
-  j = {{"id", obj.id()},
-       {"name", obj.name()},
-       {"balance", obj.balance()},
-       {"type", obj.type()},
-       {"currency", obj.currency()}};
+  j = {{JSON_ACCOUNT_ID_KEY, obj.id()},
+       {JSON_ACCOUNT_NAME_KEY, obj.name()},
+       {JSON_ACCOUNT_BALANCE_KEY, obj.balance()},
+       {JSON_ACCOUNT_TYPE_KEY, obj.type()},
+       {JSON_ACCOUNT_CURRENCY_KEY, obj.currency()}};
 }
 
 void from_json(const nlohmann::json& j, Account& obj) {
@@ -86,50 +102,52 @@ void from_json(const nlohmann::json& j, Account& obj) {
     obj.set_type(AccountType::NONE);
     return;
   }
-  obj.set_id(j.at("id").get<id_t>());
-  obj.set_name(j.at("name").get<string>());
-  obj.set_balance(j.at("balance").get<i32>());
-  obj.set_type(j.at("type").get<AccountType>());
-  obj.set_currency(j.at("currency").get<Currency>());
+  obj.set_id(j.at(JSON_ACCOUNT_ID_KEY).get<id_t>());
+  obj.set_name(j.at(JSON_ACCOUNT_NAME_KEY).get<string>());
+  obj.set_balance(j.at(JSON_ACCOUNT_BALANCE_KEY).get<i32>());
+  obj.set_type(j.at(JSON_ACCOUNT_TYPE_KEY).get<AccountType>());
+  obj.set_currency(j.at(JSON_ACCOUNT_CURRENCY_KEY).get<Currency>());
 }
-
 
 // Transfer validation & parsing
 bool is_valid_json_transfer(const nlohmann::json& j) {
-  if (j.contains("id") && j.contains("date_time") &&
-      j.contains("conversion_rate") && j.contains("state") &&
-      j.contains("err_msg") && j.contains("debit_account") &&
-      j.contains("debit_amount") && j.contains("credit_account") &&
-      j.contains("credit_amount"))
-    return true;
-  return false;
+  bool has_all = has_all_fields(
+      j, {JSON_TRANSFER_ID_KEY, JSON_TRANSFER_DATE_TIME_KEY,
+          JSON_TRANSFER_CONVERSION_RATE_KEY, JSON_TRANSFER_STATE_KEY,
+          JSON_TRANSFER_ERR_MSG_KEY, JSON_TRANSFER_DEBIT_ACCOUNT_KEY,
+          JSON_TRANSFER_DEBIT_AMOUNT_KEY, JSON_TRANSFER_CREDIT_ACCOUNT_KEY,
+          JSON_TRANSFER_CREDIT_AMOUNT_KEY});
+  return has_all;
 }
 
 void to_json(nlohmann::json& j, const Transfer& obj) {
-  j = {{"id", obj.id()},
-       //{"date_time", obj.date_time().value()},
-       {"conversion_rate", obj.conversion_rate()},
-       {"state", obj.state_switch()},
-       {"err_msg", obj.err_msg()},
-       {"debit_account", *(obj.debit_account())},
-       {"debit_amount", obj.debit_amount()},
-       {"credit_account", *(obj.credit_account())},
-       {"credit_amount", obj.credit_amount()}};
+  j = {{JSON_TRANSFER_ID_KEY, obj.id()},
+       {JSON_TRANSFER_DATE_TIME_KEY, obj.date_time().value()},
+       {JSON_TRANSFER_CONVERSION_RATE_KEY, obj.conversion_rate()},
+       {JSON_TRANSFER_STATE_KEY, obj.state_switch()},
+       {JSON_TRANSFER_ERR_MSG_KEY, obj.err_msg()},
+       {JSON_TRANSFER_DEBIT_ACCOUNT_KEY, *(obj.debit_account())},
+       {JSON_TRANSFER_DEBIT_AMOUNT_KEY, obj.debit_amount()},
+       {JSON_TRANSFER_CREDIT_ACCOUNT_KEY, *(obj.credit_account())},
+       {JSON_TRANSFER_CREDIT_AMOUNT_KEY, obj.credit_amount()}};
 }
 
 void from_json(const nlohmann::json& j, Transfer& obj) {
   if (!is_valid_json_transfer(j)) {
     return;
   }
-  obj.set_id(j.at("id").get<lid_t>());
-  // obj.set_date_time(j.at("id").get<tm>());
-  obj.set_conversion_rate(j.at("conversion_rate").get<double>());
-  obj.set_state_switch(j.at("state").get<TransferStateSwitch>());
-  obj.set_err_msg(j.at("err_msg").get<string>());
-  obj.set_debit_account(j.at("debit_account").get<Account>());
-  obj.set_debit_amount(j.at("debit_amount").get<accounting::lid_t>());
-  obj.set_credit_account(j.at("credit_account").get<Account>());
-  obj.set_credit_amount(j.at("credit_amount").get<lid_t>());
+  obj.set_id(j.at(JSON_TRANSFER_ID_KEY).get<lid_t>());
+  obj.set_date_time(j.at(JSON_TRANSFER_DATE_TIME_KEY).get<tm>());
+  obj.set_conversion_rate(
+      j.at(JSON_TRANSFER_CONVERSION_RATE_KEY).get<double>());
+  obj.set_state_switch(
+      j.at(JSON_TRANSFER_STATE_KEY).get<TransferStateSwitch>());
+  obj.set_err_msg(j.at(JSON_TRANSFER_ERR_MSG_KEY).get<string>());
+  obj.set_debit_account(j.at(JSON_TRANSFER_DEBIT_ACCOUNT_KEY).get<Account>());
+  obj.set_debit_amount(
+      j.at(JSON_TRANSFER_DEBIT_AMOUNT_KEY).get<accounting::lid_t>());
+  obj.set_credit_account(j.at(JSON_TRANSFER_CREDIT_ACCOUNT_KEY).get<Account>());
+  obj.set_credit_amount(j.at(JSON_TRANSFER_CREDIT_AMOUNT_KEY).get<lid_t>());
 }
 
 } // namespace accounting

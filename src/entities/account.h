@@ -7,10 +7,10 @@ namespace accounting {
 class Account {
  private: // fields
   id_t id_;
-  Currency currency_;
   string name_;
   i32 balance_;
   AccountType type_;
+  Currency currency_;
   std::mutex mutex_;
 
  public:
@@ -31,18 +31,18 @@ class Account {
 
   // Getters
   id_t id() const;
-  Currency currency() const;
   string name() const;
   i32 balance() const;
   AccountType type() const;
+  Currency currency() const;
   std::mutex& get_mutex();
 
   // Setters
   void set_id(id_t value);
-  void set_currency(Currency value);
   void set_name(string value);
   void set_balance(i32 value);
   void set_type(AccountType value);
+  void set_currency(Currency value);
 
   // Balance methods
   bool increase_balance(i32 amount);

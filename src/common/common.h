@@ -18,6 +18,7 @@
 
 // Libs
 #include "nlohmann/json.hpp"
+#include "./strings.h"
 
 
 // Defines

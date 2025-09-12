@@ -17,7 +17,6 @@ optional_tm from_string(const string& s) {
   return t;
 }
 
-
 string to_string(Currency currency) {
   switch (currency) {
     case Currency::USD:
