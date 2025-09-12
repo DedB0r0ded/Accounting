@@ -17,7 +17,8 @@ bool has_all_fields(const nlohmann::json& j,
 }
 
 
-// tm
+// Unable to use tm directly, because nlohmann::json is trying to find parser inside the `std` namespace instead of `accounting`.
+// Using custom DateTime struct instead
 void to_json(nlohmann::json& j, const tm& t) {
   j = to_string(t);
 }
@@ -147,7 +148,7 @@ bool is_valid_json_transfer(const nlohmann::json& j) {
 
 void to_json(nlohmann::json& j, const Transfer& obj) {
   j = {{JSON_TRANSFER_ID_KEY, obj.id()},
-       {JSON_TRANSFER_DATE_TIME_KEY, obj.date_time().value()},
+       {JSON_TRANSFER_DATE_TIME_KEY, obj.date_time()},
        {JSON_TRANSFER_CONVERSION_RATE_KEY, obj.conversion_rate()},
        {JSON_TRANSFER_STATE_KEY, obj.state_switch()},
        {JSON_TRANSFER_ERR_MSG_KEY, obj.err_msg()},
