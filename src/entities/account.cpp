@@ -3,6 +3,7 @@
 
 namespace accounting {
 
+// ctors
 Account::Account()
     : id_{0},
       currency_{Currency::NONE},
@@ -32,6 +33,7 @@ Account::Account(Account&& other) noexcept
       balance_(std::exchange(other.balance_, 0)),
       type_(std::exchange(other.type_, AccountType::NONE)) {}
 
+// Comparison ops
 bool Account::operator==(const Account& other) const {
   return id_ == other.id_ && currency_ == other.currency_ &&
          name_ == other.name_ && balance_ == other.balance_ &&
@@ -42,6 +44,7 @@ bool Account::operator!=(const Account& other) const {
   return !(*this == other);
 }
 
+// Assignment ops
 Account& Account::operator=(const Account& other) {
   if (this != &other) {
     id_ = other.id_;
@@ -64,6 +67,7 @@ Account& Account::operator=(Account&& other) noexcept {
   return *this;
 }
 
+// Getters
 id_t Account::id() const {
   return id_;
 }
@@ -88,6 +92,7 @@ std::mutex& Account::get_mutex() {
   return mutex_;
 }
 
+// Setters
 void Account::set_id(id_t value) {
   id_ = value;
 }
@@ -108,6 +113,7 @@ void Account::set_type(AccountType value) {
   type_ = value;
 }
 
+// Balance methods
 bool Account::increase_balance(i32 amount) {
   balance_ += amount;
   return true;
@@ -119,6 +125,7 @@ bool Account::decrease_balance(i32 amount) {
   return true;
 }
 
+// Output op (NOT a json parser)
 std::ostream& operator<<(std::ostream& os, const Account& account) {
   os << "Account \"" << account.name_ << "\".\n";
   os << "Id: " << account.id_

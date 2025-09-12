@@ -39,6 +39,7 @@ class Transfer {
 
  public:
   // Constructors
+  // Add tests
   Transfer() noexcept;
   Transfer(lid_t id, const tm& date_time, double conversion_rate,
            sptr<Account> debit_account, i32 debit_amount,
@@ -50,6 +51,7 @@ class Transfer {
            sptr<Account> credit_account, i32 amount) noexcept;
 
   // Getters
+  // Add tests
   lid_t id() const;
   optional_tm date_time() const;
   double conversion_rate() const;
@@ -63,6 +65,7 @@ class Transfer {
   i32 credit_amount() const;
 
   // Setters
+  // Add tests
   void set_id(const lid_t& id);
   void set_date_time(const optional_tm& date_time);
   void set_conversion_rate(double rate);
@@ -74,6 +77,7 @@ class Transfer {
   void set_credit_amount(i32 amount);
 
   // Main method
+  // Add multithreaded tests
   bool commit();
 };
 } // namespace accounting

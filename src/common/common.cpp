@@ -1,6 +1,5 @@
 #include "common.h"
 
-
 namespace accounting {
 string to_string(Currency currency) {
   switch (currency) {
@@ -46,4 +45,4 @@ string to_string(AccountType account_type) {
   }
   return account_type_name;
 }
-}
+} // namespace accounting

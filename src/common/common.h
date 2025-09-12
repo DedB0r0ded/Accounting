@@ -26,7 +26,6 @@
 
 using namespace std::string_literals;
 
-
 namespace accounting {
 // General aliases
 template <typename T>
@@ -60,17 +59,9 @@ using lid_t = uint64_t;
 // Enums
 enum class Currency : i8 { NONE = -1, USD, MYR, BYN };
 
-enum class AccountType : i8 {
-  NONE = -1,
-  PASSIVE = 0,
-  ACTIVE = 1
-};
+enum class AccountType : i8 { NONE = -1, PASSIVE = 0, ACTIVE = 1 };
 
-enum class AccountFlags : i8 {
-  OPENED = ~(1 << 1),
-  CANCELLED = 1 << 1
-};
-
+enum class AccountFlags : i8 { OPENED = ~(1 << 1), CANCELLED = 1 << 1 };
 
 // Math
 // Add tests
@@ -81,10 +72,9 @@ inline bool is_close_double(double a, double b, double rel_tol = 1e-6,
   return std::abs(a - b) <= std::max(rel_tol * std::max(a_abs, b_abs), abs_tol);
 }
 
-
 // Time
-// TODO: 
-// add tests for all functions; 
+// TODO:
+// add tests for all functions;
 // add JSON parsers.
 inline tm to_tm(const time_t& src) {
 #ifdef ACCOUNTING_THREAD_SAFE_TIME
@@ -107,7 +97,6 @@ inline time_t get_current_time() {
 inline tm get_current_time_tm() {
   return to_tm(get_current_time());
 }
-
 
 // Enum parsing
 // Implementation in `common.cpp`

@@ -1,29 +1,46 @@
 // json_serializers.cpp
 #include "json_serializers.h"
 
+#include <sstream>
+
+
+// Validations currently check only the presence of all fields
+// TODO: Add value validation
+// Create tests
 namespace accounting {
 
+// tm parsing
+string tm_to_iso8601(const tm& date_time) {
+  std::ostringstream oss;
+  oss << std::put_time(&date_time, "%Y-%m-%dT%H-%M-%SZ");
+  return oss.str();
+}
+
+optional_tm tm_from_iso8601(const string& s) {
+  optional_tm res{};
+  std::istringstream iss(s);
+  iss >> std::get_time(&res.value(), "%Y-%m-%dT%H-%M-%SZ");
+  if (iss.fail()) {
+    return std::nullopt;
+  }
+  return res;
+}
+
+void to_json(nlohmann::json& j, const tm& date_time) {
+  j = tm_to_iso8601(date_time);
+}
+
+void from_json(const nlohmann::json& j, tm& date_time) {
+  // TODO: FINISH. ADD OPT VALIDATION
+  // TODO: ADD UTC-MAKER TO COMMON.H
+  date_time = tm_from_iso8601(j).value();
+}
+
+// TransferStateSwitch validation & parsing
 bool is_valid_json_transfer_state_switch(const nlohmann::json& j) {
   if (j.contains("validated") && j.contains("started") &&
       j.contains("credit_decreased") && j.contains("debit_increase") &&
       j.contains("currency"))
-    return true;
-  return false;
-}
-
-bool is_valid_json_account(const nlohmann::json& j) {
-  if (j.contains("id") && j.contains("name") && j.contains("balance") &&
-      j.contains("type") && j.contains("currency"))
-    return true;
-  return false;
-}
-
-bool is_valid_json_transfer(const nlohmann::json& j) {
-  if (j.contains("id") && j.contains("date_time") &&
-      j.contains("conversion_rate") && j.contains("state") &&
-      j.contains("err_msg") && j.contains("debit_account") &&
-      j.contains("debit_amount") && j.contains("credit_account") &&
-      j.contains("credit_amount"))
     return true;
   return false;
 }
@@ -50,6 +67,8 @@ void from_json(const nlohmann::json& j, TransferStateSwitch& state_switch) {
   state_switch.set_interrupted(j.at("interrupted").get<bool>());
 }
 
+
+// TransferState parsing
 void to_json(nlohmann::json& j, const TransferState& transfer_state) {
   const auto state_switch = TransferStateSwitch(transfer_state);
   to_json(j, state_switch);
@@ -59,6 +78,15 @@ void from_json(const nlohmann::json& j, TransferState& transfer_state) {
   auto state_switch = TransferStateSwitch(transfer_state);
   from_json(j, state_switch);
   transfer_state = state_switch.get_state();
+}
+
+
+// Account validation & parsing
+bool is_valid_json_account(const nlohmann::json& j) {
+  if (j.contains("id") && j.contains("name") && j.contains("balance") &&
+      j.contains("type") && j.contains("currency"))
+    return true;
+  return false;
 }
 
 void to_json(nlohmann::json& j, const Account& obj) {
@@ -80,6 +108,18 @@ void from_json(const nlohmann::json& j, Account& obj) {
   obj.set_balance(j.at("balance").get<i32>());
   obj.set_type(j.at("type").get<AccountType>());
   obj.set_currency(j.at("currency").get<Currency>());
+}
+
+
+// Transfer validation & parsing
+bool is_valid_json_transfer(const nlohmann::json& j) {
+  if (j.contains("id") && j.contains("date_time") &&
+      j.contains("conversion_rate") && j.contains("state") &&
+      j.contains("err_msg") && j.contains("debit_account") &&
+      j.contains("debit_amount") && j.contains("credit_account") &&
+      j.contains("credit_amount"))
+    return true;
+  return false;
 }
 
 void to_json(nlohmann::json& j, const Transfer& obj) {

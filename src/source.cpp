@@ -75,6 +75,9 @@ int main() {
     } else {
       std::cout << "\nОшибка перевода: " << transfer.err_msg() << "\n";
     }
+    json jt;
+    to_json(jt, transfer);
+    std::cout << "Transfer: " << jt << '\n';
     transfers.push_back(transfer);
 
     // Save all data in files

@@ -5,7 +5,7 @@
 
 namespace accounting {
 class Account {
- private:
+ private: // fields
   id_t id_;
   Currency currency_;
   string name_;
@@ -48,7 +48,7 @@ class Account {
   bool increase_balance(i32 amount);
   bool decrease_balance(i32 amount);
 
-  // Output op
+  // Output op (NOT a json parser)
   friend std::ostream& operator<<(std::ostream& os, const Account& account);
 };
 } // namespace accounting
