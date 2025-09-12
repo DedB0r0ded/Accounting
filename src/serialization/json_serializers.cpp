@@ -148,7 +148,7 @@ bool is_valid_json_transfer(const nlohmann::json& j) {
 
 void to_json(nlohmann::json& j, const Transfer& obj) {
   j = {{JSON_TRANSFER_ID_KEY, obj.id()},
-       {JSON_TRANSFER_DATE_TIME_KEY, obj.date_time()},
+       //{JSON_TRANSFER_DATE_TIME_KEY, obj.date_time()},
        {JSON_TRANSFER_CONVERSION_RATE_KEY, obj.conversion_rate()},
        {JSON_TRANSFER_STATE_KEY, obj.state_switch()},
        {JSON_TRANSFER_ERR_MSG_KEY, obj.err_msg()},
@@ -165,7 +165,7 @@ void from_json(const nlohmann::json& j, Transfer& obj) {
     return;
   }
   obj.set_id(j.at(JSON_TRANSFER_ID_KEY).get<lid_t>());
-  obj.set_date_time(j.at(JSON_TRANSFER_DATE_TIME_KEY).get<optional_tm>());
+  //obj.set_date_time(j.at(JSON_TRANSFER_DATE_TIME_KEY).get<optional_tm>());
   obj.set_conversion_rate(
       j.at(JSON_TRANSFER_CONVERSION_RATE_KEY).get<double>());
   obj.set_state_switch(

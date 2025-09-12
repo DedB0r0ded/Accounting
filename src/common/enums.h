@@ -1,23 +1,21 @@
-#include "common.h"
+#pragma once
+
+
+#include "./aliases.h"
+
 
 namespace accounting {
-string to_string(const tm& t) {
-  std::ostringstream oss;
-  oss << std::put_time(&t, "%Y-%m-%dT%H-%M-%SZ");
-  return oss.str();
-}
 
-optional_tm from_string(const string& s) {
-  tm t{};
-  std::istringstream iss(s);
-  iss >> std::get_time(&t, "%Y-%m-%dT%H-%M-%SZ");
-  if (iss.fail()) {
-    return std::nullopt;
-  }
-  return t;
-}
+// Enums
+enum class Currency : i8 { NONE = -1, USD, MYR, BYN };
 
-string to_string(Currency currency) {
+enum class AccountType : i8 { NONE = -1, PASSIVE = 0, ACTIVE = 1 };
+
+enum class AccountFlags : i8 { OPENED = ~(1 << 1), CANCELLED = 1 << 1 };
+
+
+// Enum parsing
+inline string to_string(Currency currency) {
   switch (currency) {
     case Currency::USD:
       return "USD";
@@ -32,7 +30,7 @@ string to_string(Currency currency) {
   }
 }
 
-string to_full_string(Currency currency) {
+inline string to_full_string(Currency currency) {
   switch (currency) {
     case Currency::USD:
       return "US Dollars";
@@ -47,7 +45,7 @@ string to_full_string(Currency currency) {
   }
 }
 
-string to_string(AccountType account_type) {
+inline string to_string(AccountType account_type) {
   string account_type_name;
   switch (account_type) {
     case AccountType::PASSIVE:
@@ -61,4 +59,5 @@ string to_string(AccountType account_type) {
   }
   return account_type_name;
 }
+
 } // namespace accounting

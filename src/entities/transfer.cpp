@@ -16,6 +16,7 @@ void Transfer::calc_and_reset_conversion_rate() {
   conversion_rate_ = debit_amount_ / credit_amount_;
 }
 
+
 bool Transfer::debit_equals_credit() const {
   return debit_amount_ == credit_amount_;
 }
@@ -64,6 +65,7 @@ bool Transfer::validate_transfer() {
   return true;
 }
 
+
 void Transfer::update_validity() {
   state_switch_.set_validated(validate_transfer());
 }
@@ -84,6 +86,7 @@ void Transfer::rollback_debit_increase() {
   debit_account_->decrease_balance(debit_amount_);
 }
 
+
 bool Transfer::transfer_money() {
   state_switch_.set_started(true);
   if (!decrease_credit_account()) {
@@ -98,6 +101,7 @@ bool Transfer::transfer_money() {
   state_switch_.set_debit_increased(true);
   return true;
 }
+
 
 // =====Constructors
 Transfer::Transfer() noexcept
@@ -135,6 +139,7 @@ Transfer::Transfer(lid_t id, const tm& date_time, sptr<Account> debit_account,
 Transfer::Transfer(lid_t id, const tm& date_time, sptr<Account> debit_account,
                    sptr<Account> credit_account, i32 amount) noexcept
     : Transfer(id, date_time, debit_account, amount, credit_account, amount) {}
+
 
 // =====Getters
 lid_t Transfer::id() const {
@@ -181,6 +186,7 @@ i32 Transfer::credit_amount() const {
   return credit_amount_;
 }
 
+
 // =====Setters
 void Transfer::set_id(const lid_t& id) {
   id_ = id;
@@ -217,6 +223,7 @@ void Transfer::set_credit_account(const Account& account) {
 void Transfer::set_credit_amount(i32 amount) {
   credit_amount_ = amount;
 }
+
 
 // =====Main method
 bool Transfer::commit() {
