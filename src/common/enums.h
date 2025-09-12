@@ -1,3 +1,4 @@
+// enums.h
 #pragma once
 
 
@@ -15,49 +16,47 @@ enum class AccountFlags : i8 { OPENED = ~(1 << 1), CANCELLED = 1 << 1 };
 
 
 // Enum parsing
-inline string to_string(Currency currency) {
+constexpr std::string_view to_string(const Currency currency) {
   switch (currency) {
     case Currency::USD:
-      return "USD";
+      return CURRENCY_SHORT_USD;
     case Currency::MYR:
-      return "MYR";
+      return CURRENCY_SHORT_MYR;
     case Currency::BYN:
-      return "BYN";
+      return CURRENCY_SHORT_BYN;
     case Currency::NONE:
-      return "NONE";
+      return CURRENCY_SHORT_NONE;
     default:
-      return "Error. Invalid currency value.";
+      return ERROR_CURRENCY_INVALID;
   }
 }
 
-inline string to_full_string(Currency currency) {
+constexpr std::string_view to_full_string(const Currency currency) {
   switch (currency) {
     case Currency::USD:
-      return "US Dollars";
+      return CURRENCY_FULL_USD;
     case Currency::MYR:
-      return "Malaysian Ringgits";
+      return CURRENCY_FULL_MYR;
     case Currency::BYN:
-      return "Belarussian Rubles";
+      return CURRENCY_FULL_BYN;
     case Currency::NONE:
-      return "NO CURRENCY";
+      return CURRENCY_FULL_NONE;
     default:
-      return "Error. Invalid currency value.";
+      return ERROR_CURRENCY_INVALID;
   }
 }
 
-inline string to_string(AccountType account_type) {
-  string account_type_name;
+constexpr std::string_view to_string(const AccountType account_type) {
   switch (account_type) {
     case AccountType::PASSIVE:
-      return "Passive";
+      return ACCOUNT_TYPE_PASSIVE;
     case AccountType::ACTIVE:
-      return "Active";
+      return ACCOUNT_TYPE_ACTIVE;
     case AccountType::NONE:
-      return "NONE";
+      return ACCOUNT_TYPE_NONE;
     default:
-      return "Error. Invalid account type value.";
+      return ERROR_ACCOUNT_TYPE_INVALID;
   }
-  return account_type_name;
 }
 
 } // namespace accounting

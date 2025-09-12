@@ -1,8 +1,18 @@
+//aliases.h
 #pragma once
 
 
+// C
+#include <cstdint>
+
+
+// C++
 #include <optional>
 #include <memory>
+#include <chrono>
+
+// Libs
+#include "./strings.h"
 
 
 namespace accounting {

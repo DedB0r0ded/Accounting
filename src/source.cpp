@@ -20,22 +20,7 @@ std::vector<Transfer> static create_transfer_vec() {
   return std::vector<Transfer>();
 }
 
-// String to enforce Windows to save source code as UTF-8 so nlohmann::json lib
-// would work
-//  |
-//  V
-//"Привет! Hello! 你好！
-
-// App entry point
-int main() {
-  // Set UTF-8 encoding of data on all systems
-  setlocale(LC_ALL, "");
-  // ifdef for Windows encoding
-#ifdef _WIN32
-  setlocale(LC_ALL, ".UTF-8");
-  SetConsoleOutputCP(CP_UTF8);
-#endif
-
+int try_exec() {
   try {
     // Create two vectors
     auto accounts = create_account_vec();
@@ -91,6 +76,23 @@ int main() {
     std::cerr << "Ошибка: " << e.what() << std::endl;
     return 1;
   }
+}
 
-  return 0;
+// String to enforce Windows to save source code as UTF-8 so nlohmann::json lib
+// would work
+//  |
+//  V
+//"Привет! Hello! 你好！
+
+// App entry point
+int main() {
+  // Set UTF-8 encoding of data on all systems
+  setlocale(LC_ALL, "");
+  // ifdef for Windows encoding
+#ifdef _WIN32
+  setlocale(LC_ALL, ".UTF-8");
+  SetConsoleOutputCP(CP_UTF8);
+#endif
+
+  return try_exec();
 }

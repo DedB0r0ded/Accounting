@@ -1,6 +1,27 @@
+// strings.h
 #pragma once
 
 
+// Enums
+#define ERROR_CURRENCY_INVALID "Error. Invalid currency value."
+
+#define CURRENCY_SHORT_USD "USD"
+#define CURRENCY_SHORT_MYR "MYR"
+#define CURRENCY_SHORT_BYN "BYN"
+#define CURRENCY_SHORT_NONE "none"
+
+#define CURRENCY_FULL_USD "US Dollars"
+#define CURRENCY_FULL_MYR "Malaysian Ringgits"
+#define CURRENCY_FULL_BYN "Belarussian Rubles"
+#define CURRENCY_FULL_NONE "No currency"
+
+#define ERROR_ACCOUNT_TYPE_INVALID "Error. Invalid account type value."
+
+#define ACCOUNT_TYPE_PASSIVE "passive"
+#define ACCOUNT_TYPE_ACTIVE "active"
+#define ACCOUNT_TYPE_NONE "none"
+
+// JSON
 #define JSON_NULL "null"
 
 #define JSON_ACCOUNT_ID_KEY "id"

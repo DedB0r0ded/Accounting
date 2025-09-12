@@ -17,31 +17,19 @@ bool has_all_fields(const nlohmann::json& j,
 }
 
 
+#ifdef USE_CUSTOM_DATE_TIME
 // Unable to use tm directly, because nlohmann::json is trying to find parser inside the `std` namespace instead of `accounting`.
 // Using custom DateTime struct instead
-void to_json(nlohmann::json& j, const tm& t) {
-  j = to_string(t);
+void to_json(nlohmann::json& j, const DateTime& dt) {
+  j = dt.to_string();
 }
 
-void from_json(const nlohmann::json& j, tm& t) {
+void from_json(const nlohmann::json& j, DateTime& dt) {
   // TODO: FINISH. ADD OPT VALIDATION
-  // TODO: ADD UTC-MAKER TO COMMON.H
-  t = from_string(j).value();
+  // TODO: ADD UTC-MAKER TO TIME.H
+  dt = from_string(j);
 }
-
-
-// std::optional<tm> or optional_tm
-void to_json(nlohmann::json& j, const optional_tm& ot) {
-  if (ot == std::nullopt) {
-    j = JSON_NULL;
-    return;
-  }
-  j = to_string(ot.value());
-}
-
-void from_json(const nlohmann::json& j, optional_tm& ot) {
-  ot = from_string(j);
-}
+#endif
 
 
 // TransferStateSwitch
@@ -148,7 +136,7 @@ bool is_valid_json_transfer(const nlohmann::json& j) {
 
 void to_json(nlohmann::json& j, const Transfer& obj) {
   j = {{JSON_TRANSFER_ID_KEY, obj.id()},
-       //{JSON_TRANSFER_DATE_TIME_KEY, obj.date_time()},
+       {JSON_TRANSFER_DATE_TIME_KEY, obj.date_time()},
        {JSON_TRANSFER_CONVERSION_RATE_KEY, obj.conversion_rate()},
        {JSON_TRANSFER_STATE_KEY, obj.state_switch()},
        {JSON_TRANSFER_ERR_MSG_KEY, obj.err_msg()},
@@ -165,7 +153,7 @@ void from_json(const nlohmann::json& j, Transfer& obj) {
     return;
   }
   obj.set_id(j.at(JSON_TRANSFER_ID_KEY).get<lid_t>());
-  //obj.set_date_time(j.at(JSON_TRANSFER_DATE_TIME_KEY).get<optional_tm>());
+  obj.set_date_time(j.at(JSON_TRANSFER_DATE_TIME_KEY).get<DateTime>());
   obj.set_conversion_rate(
       j.at(JSON_TRANSFER_CONVERSION_RATE_KEY).get<double>());
   obj.set_state_switch(

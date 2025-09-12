@@ -33,7 +33,7 @@ bool Transfer::validate_conversion_rate() const {
 
 bool Transfer::any_value_is_null() const {
   if (id_ == 0) return true;
-  if (date_time_ == std::nullopt) return true;
+  if (date_time_.is_null()) return true;
   if (debit_account_ == nullptr) return true;
   if (credit_account_ == nullptr) return true;
   if (debit_amount_ == 0 || credit_amount_ == 0) return true;
@@ -146,7 +146,7 @@ lid_t Transfer::id() const {
   return id_;
 }
 
-optional_tm Transfer::date_time() const {
+DateTime Transfer::date_time() const {
   return date_time_;
 }
 
@@ -192,7 +192,7 @@ void Transfer::set_id(const lid_t& id) {
   id_ = id;
 }
 
-void Transfer::set_date_time(const optional_tm& date_time) {
+void Transfer::set_date_time(const DateTime& date_time) {
   date_time_ = date_time;
 }
 
@@ -244,6 +244,7 @@ bool Transfer::commit() {
     state_switch_.reset();
     return false;
   }
+  date_time_ = get_current_time_tm();
   return true;
 }
 

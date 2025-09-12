@@ -9,7 +9,7 @@ namespace accounting {
 class Transfer {
  private:
   lid_t id_;
-  optional_tm date_time_;
+  DateTime date_time_;
   double conversion_rate_; // debit_amount_ / credit_amount_
 
   TransferStateSwitch state_switch_;
@@ -53,7 +53,7 @@ class Transfer {
   // Getters
   // Add tests
   lid_t id() const;
-  optional_tm date_time() const;
+  DateTime date_time() const;
   double conversion_rate() const;
   bool is_valid() const;
   TransferStateSwitch state_switch() const;
@@ -67,7 +67,7 @@ class Transfer {
   // Setters
   // Add tests
   void set_id(const lid_t& id);
-  void set_date_time(const optional_tm& date_time);
+  void set_date_time(const DateTime& date_time);
   void set_conversion_rate(double rate);
   void set_state_switch(const TransferStateSwitch& state_switch);
   void set_err_msg(const string& msg);
