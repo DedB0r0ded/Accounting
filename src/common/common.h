@@ -75,7 +75,6 @@ inline bool is_close_double(double a, double b, double rel_tol = 1e-6,
 // Time
 // TODO:
 // add tests for all functions;
-// add JSON parsers.
 inline tm to_tm(const time_t& src) {
 #ifdef ACCOUNTING_THREAD_SAFE_TIME
   tm result{};
@@ -97,6 +96,11 @@ inline time_t get_current_time() {
 inline tm get_current_time_tm() {
   return to_tm(get_current_time());
 }
+
+// tm <-> ISO8601 parsing
+string to_string(const tm& t);
+optional_tm from_string(const string& s);
+
 
 // Enum parsing
 // Implementation in `common.cpp`

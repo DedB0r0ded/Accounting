@@ -9,31 +9,14 @@
 // Create tests
 namespace accounting {
 
-// tm parsing
-string tm_to_iso8601(const tm& date_time) {
-  std::ostringstream oss;
-  oss << std::put_time(&date_time, "%Y-%m-%dT%H-%M-%SZ");
-  return oss.str();
-}
-
-optional_tm tm_from_iso8601(const string& s) {
-  optional_tm res{};
-  std::istringstream iss(s);
-  iss >> std::get_time(&res.value(), "%Y-%m-%dT%H-%M-%SZ");
-  if (iss.fail()) {
-    return std::nullopt;
-  }
-  return res;
-}
-
 void to_json(nlohmann::json& j, const tm& date_time) {
-  j = tm_to_iso8601(date_time);
+  j = to_string(date_time);
 }
 
 void from_json(const nlohmann::json& j, tm& date_time) {
   // TODO: FINISH. ADD OPT VALIDATION
   // TODO: ADD UTC-MAKER TO COMMON.H
-  date_time = tm_from_iso8601(j).value();
+  date_time = from_string(j).value();
 }
 
 // TransferStateSwitch validation & parsing

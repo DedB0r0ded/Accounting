@@ -21,12 +21,12 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Currency, {{Currency::NONE, "none"},
                                         {Currency::MYR, "myr"},
                                         {Currency::BYN, "byn"}})
 
-// Validation functions
-bool is_valid_json_transfer_state_switch(const nlohmann::json& j);
-bool is_valid_json_account(const nlohmann::json& j);
-bool is_valid_json_transfer(const nlohmann::json& j);
+// tm serialization
+void to_json(nlohmann::json& j, const tm& t);
+void from_json(const nlohmann::json j, tm& t);
 
 // TransferStateSwitch serialization
+bool is_valid_json_transfer_state_switch(const nlohmann::json& j);
 void to_json(nlohmann::json& j, const TransferStateSwitch& state_switch);
 void from_json(const nlohmann::json& j, TransferStateSwitch& state_switch);
 
@@ -35,10 +35,12 @@ void to_json(nlohmann::json& j, const TransferState& transfer_state);
 void from_json(const nlohmann::json& j, TransferState& transfer_state);
 
 // Account serialization
+bool is_valid_json_account(const nlohmann::json& j);
 void to_json(nlohmann::json& j, const Account& obj);
 void from_json(const nlohmann::json& j, Account& obj);
 
 // Transfer serialization
+bool is_valid_json_transfer(const nlohmann::json& j);
 void to_json(nlohmann::json& j, const Transfer& obj);
 void from_json(const nlohmann::json& j, Transfer& obj);
 

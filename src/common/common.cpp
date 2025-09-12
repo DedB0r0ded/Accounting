@@ -1,6 +1,23 @@
 #include "common.h"
 
 namespace accounting {
+string to_string(const tm& t) {
+  std::ostringstream oss;
+  oss << std::put_time(&t, "%Y-%m-%dT%H-%M-%SZ");
+  return oss.str();
+}
+
+optional_tm from_string(const string& s) {
+  tm t{};
+  std::istringstream iss(s);
+  iss >> std::get_time(&t, "%Y-%m-%dT%H-%M-%SZ");
+  if (iss.fail()) {
+    return std::nullopt;
+  }
+  return t;
+}
+
+
 string to_string(Currency currency) {
   switch (currency) {
     case Currency::USD:
