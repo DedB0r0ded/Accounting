@@ -25,7 +25,7 @@ TODO:
 
 ## common
 Subdirectory of `src/`. 
-Contains `.h` files used commonly in other project code.
+Contains `.h` files used commonly in project code.
 
 ### strings.h
 *No includes*  
