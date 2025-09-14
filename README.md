@@ -11,11 +11,21 @@ TODO:
 # Documentation
 - src/
   - common/
-    - [strings.h]
-    - [aliases.h]
-    - [time.h]
-    - [date_time.h]
+    - [strings.h](#strings.h)
+    - [aliases.h](#aliases.h)
+    - [time.h](#time.h)
+    - [date_time.h](#date_time.h)
+  - entities
+  - files
+  - interface
+  - repository
+  - serialization
+  - [source.cpp](#source.cpp)
 
+
+## common
+Subdirectory of `src/`. 
+Contains `.h` files used commonly in other project code.
 
 ### strings.h
 *No includes*  
@@ -62,10 +72,18 @@ Contains custom `DateTime` wrapper type for `std::tm`.
 `DateTime` class:
 - Rule of five implemented (default ctor, copy ctor, move ctor, copy assignment, move assignment)
 - `explicit DateTime(const tm& t)` creates a `DateTime` instance based on `std::tm` reference provided. Marked `explicit` to prevent implicit conversions
-- `explicit DareTime(const optional_tm& t)` creates a `DateTime` instance from `optional_tm` reference. See [aliases.h] for `optional_tm` definition
+- `explicit DareTime(const optional_tm& t)` creates a `DateTime` instance from `optional_tm` reference. See [aliases.h](#aliases.h) for `optional_tm` definition
 - `DateTime& operator=(const tm& t)` assignment operator. Sets internal value to `std::tm` provided 
-- `DateTime& operator=(const optional_tm& t)` assignment operator. Sets internal container to `optional_tm` provided. See [aliases.h] for `optional_tm` definition
+- `DateTime& operator=(const optional_tm& t)` assignment operator. Sets internal container to `optional_tm` provided. See [aliases.h](#aliases.h) for `optional_tm` definition
 - `constexpr const tm& value()` returns `std::tm` internal value
 - `constexpr bool is_null()` returns true if internal container is `std::nullopt`
 - `void reset()` resets internal container to `std::nullopt`
 - `operator<<` overload. "null" if `DateTime` instance has no value. `ISO8601`-stringified `DateTime` otherwise 
+
+
+## entities
+## files
+## interface
+## repository
+## serialization
+## source.cpp
