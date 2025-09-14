@@ -16,6 +16,8 @@ public:
 
   explicit DateTime(const tm& t) { value_ = optional_tm(t); }
 
+  explicit DateTime(const optional_tm& t) { value_ = t; }
+
   DateTime(const DateTime& other) = default;
 
   DateTime(DateTime&& other) noexcept = default;
@@ -38,8 +40,9 @@ public:
 
 
   // Getters
+
   // might trow an exception if value was nullopt
-  const tm& value(void) const { return value_.value(); }
+  constexpr const tm& value(void) const { return value_.value(); }
 
   constexpr bool is_null(void) const noexcept {
     return !value_.has_value();
@@ -54,10 +57,10 @@ public:
   void reset(void) { value_ = std::nullopt; }
 
   friend std::ostream& operator<<(std::ostream& os, const DateTime& dt) {
-    if (dt.value_)
-      return os << accounting::to_string(*dt.value_);
-    else
+    if (dt.is_null())
       return os << JSON_NULL;
+    else
+      return os << accounting::to_string(*dt.value_);
   }
 };
 
