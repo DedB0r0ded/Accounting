@@ -10,7 +10,7 @@
 namespace accounting {
 
 bool has_all_fields(const nlohmann::json& j,
-                    std::initializer_list<const char*> fields) {
+                    std::initializer_list<string_const> fields) {
   for (auto field : fields)
     if (!j.contains(field)) return false;
   return true;

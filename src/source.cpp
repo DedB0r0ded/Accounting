@@ -31,8 +31,8 @@ int try_exec() {
     // Load accounts from file
     if (file_repo.accounts_file_exists()) accounts = file_repo.load_accounts();
     // Load transfers from file (NOT WORKING. TODO: refactor load)
-    // if (file_repo.transfers_file_exists())
-    // transfers = file_repo.load_transfers();
+    if (file_repo.transfers_file_exists())
+    transfers = file_repo.load_transfers();
     // Output
     for (auto acc : accounts) std::cout << json(acc) << '\n';
     for (auto tr : transfers) std::cout << json(tr) << '\n';

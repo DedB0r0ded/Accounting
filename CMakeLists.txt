@@ -31,7 +31,6 @@ set(SOURCES
   "${SRC_DIR}/entities/account.cpp"
   "${SRC_DIR}/entities/transfer_state_switch.cpp"
   "${SRC_DIR}/entities/transfer.cpp"
-  "${SRC_DIR}/files/file.cpp"
   "${SRC_DIR}/repository/file_repository.cpp"
   "${SRC_DIR}/serialization/json_serializers.cpp"
   "${SRC_DIR}/interface/cli.cpp"

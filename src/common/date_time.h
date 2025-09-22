@@ -49,7 +49,7 @@ public:
   }
 
   string to_string(void) const {
-    return value_ ? accounting::to_string(*value_) : JSON_NULL;
+    return value_ ? accounting::to_string(*value_) : string(JSON_NULL);
   }
 
 

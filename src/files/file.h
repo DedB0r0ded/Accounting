@@ -1,11 +1,13 @@
 // file.h
 #pragma once
 
+
 #include <filesystem>
 #include <fstream>
 
 #include "common/common.h"
 #include "serialization/json_serializers.h"
+
 
 namespace accounting {
 template <typename T>
@@ -15,6 +17,7 @@ class File {
  private:
   std::filesystem::path file_path_;
 
+  // Enforce using File<T> only for T = Account or Transfer
   static_assert(
       std::is_same<T, Account>::value || std::is_same<T, Transfer>::value,
       "File class can only be instantiated with Account or Transfer types");
@@ -22,8 +25,8 @@ class File {
   template <typename R, typename F>
   R with_istream(F&& func);
   template <typename R, typename F>
-  R with_ostream(F&& func, std::ios_base::openmode mode = std::ios_base::out |
-                                                          std::ios_base::trunc);
+  R with_ostream(F&& func, std::ios::openmode mode = std::ios::out |
+                                                          std::ios::trunc);
 
  public:
   File(const string& file_path) : file_path_(file_path) {}
@@ -32,16 +35,17 @@ class File {
 
   bool file_exists() const { return std::filesystem::exists(file_path_); }
 
-  bool write(const T& obj);
+  //bool write(const T& obj);
   bool write(const std::vector<T>& objs);
 
-  std::optional<T> read_one();
+  //std::optional<T> read_one();
   std::vector<T> read_all();
 
   bool append(const T& obj);
   bool append(const std::vector<T>& objs);
 };
 } // namespace accounting
+
 
 namespace accounting {
 // Добавить проверку сигнатуры лямбды
@@ -56,7 +60,7 @@ R File<T>::with_istream(F&& func) {
                                file_path_.string());
     in.exceptions(std::ifstream::failbit | std::ifstream::badbit);
     return func(in);
-  } catch (const std::ios_base::failure& e) {
+  } catch (const std::ios::failure& e) {
     throw std::runtime_error("I/O error while reading from "s +
                              file_path_.string() + ": " + e.what());
   } catch (const std::exception& e) {
@@ -67,7 +71,7 @@ R File<T>::with_istream(F&& func) {
 
 template <typename T>
 template <typename R, typename F>
-R File<T>::with_ostream(F&& func, std::ios_base::openmode mode) {
+R File<T>::with_ostream(F&& func, std::ios::openmode mode) {
   try {
     std::ofstream out(file_path_, mode);
     if (!out.is_open())
@@ -79,7 +83,7 @@ R File<T>::with_ostream(F&& func, std::ios_base::openmode mode) {
       R();
     else
       return R();
-  } catch (std::ios_base::failure& ex) {
+  } catch (std::ios::failure& ex) {
     throw std::runtime_error("I/O error while reading from "s +
                              file_path_.string() + ": " + ex.what());
   } catch (std::exception& ex) {
@@ -88,14 +92,6 @@ R File<T>::with_ostream(F&& func, std::ios_base::openmode mode) {
   }
 }
 
-template <typename T>
-bool File<T>::write(const T& obj) {
-  return with_ostream<bool>([&](std::ofstream& out) {
-    nlohmann::json j = obj;
-    out << j.dump(4);
-    return true;
-  });
-}
 
 template <typename T>
 bool File<T>::write(const std::vector<T>& objs) {
@@ -107,15 +103,6 @@ bool File<T>::write(const std::vector<T>& objs) {
   });
 }
 
-template <typename T>
-std::optional<T> File<T>::read_one() {
-  return with_istream<std::optional<T>>([&](std::ifstream& in) {
-    nlohmann::json j;
-    in >> j;
-    T obj = j.get<T>();
-    return obj;
-  });
-}
 
 // Сделать возвращаемый вектор ссылкой?
 template <typename T>

@@ -1,11 +1,14 @@
 // transfer.h
 #pragma once
 
+
 #include "common/common.h"
 #include "entities/account.h"
 #include "entities/transfer_state_switch.h"
 
+
 namespace accounting {
+
 class Transfer {
  private:
   lid_t id_;
@@ -72,12 +75,15 @@ class Transfer {
   void set_state_switch(const TransferStateSwitch& state_switch);
   void set_err_msg(const string& msg);
   void set_debit_account(const Account& account);
+  void set_debit_account(Account&& account);
   void set_debit_amount(i32 amount);
   void set_credit_account(const Account& account);
+  void set_credit_account(Account&& account);
   void set_credit_amount(i32 amount);
 
   // Main method
   // Add multithreaded tests
   bool commit();
 };
+
 } // namespace accounting

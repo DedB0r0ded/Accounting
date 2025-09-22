@@ -18,7 +18,6 @@ void FileRepository::save_accounts(const std::vector<Account>& accounts) {
 std::vector<Account> FileRepository::load_accounts(void) {
   File<Account> file(accounts_path_);
   return file.read_all();
-  return std::vector<Account>();
 }
 
 void FileRepository::save_transfers(const std::vector<Transfer>& transfers) {
@@ -29,6 +28,5 @@ void FileRepository::save_transfers(const std::vector<Transfer>& transfers) {
 std::vector<Transfer> FileRepository::load_transfers(void) {
   File<Transfer> file(transfers_path_);
   return file.read_all();
-  return std::vector<Transfer>();
 }
 } // namespace accounting

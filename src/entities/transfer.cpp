@@ -212,6 +212,10 @@ void Transfer::set_debit_account(const Account& account) {
   *debit_account_ = account;
 } // add null-check
 
+void Transfer::set_debit_account(Account&& account) {
+  *debit_account_ = std::move(account);
+}
+
 void Transfer::set_debit_amount(i32 amount) {
   debit_amount_ = amount;
 }
@@ -219,6 +223,10 @@ void Transfer::set_debit_amount(i32 amount) {
 void Transfer::set_credit_account(const Account& account) {
   *credit_account_ = account;
 } // add null-check
+
+void Transfer::set_credit_account(Account&& account) {
+  *credit_account_ = std::move(account);
+}
 
 void Transfer::set_credit_amount(i32 amount) {
   credit_amount_ = amount;

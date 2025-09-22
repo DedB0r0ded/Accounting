@@ -1,12 +1,11 @@
 TODO:
 - make a `README.md`
 - finish logging system: `src/common/logger.cpp`, `src/common/logger.h`, `src/common/log_scope.cpp` and `src/common/logging.h`
-- test methods from `src/files/`
+- refactor methods in `file.h`. Make them all write and read in the same format. Add content check: don't add a new array in the file, if there's an array already; if there is one or zero elements and we need to add more, then push existent entity in front of vector and only after that - write everything into file together. Maybe remove `write(entity)`, `std::optional<entity> read_one()` and `append(entity)` and leave only `write(std::vector<entity>)`, `std::vector<entity> read_all()` and `append(std::vector<entity>)`
 - test methods from `src/repository/file_repository.cpp|.h`
 - implement Command Line Interface (CLI) in `src/interface/cli.cpp|.h`
 
 - - implement conditional compilation in `transfer.cpp` and `transfer.h` depending on `USE_CUSTOM_DATE_TIME_`
-- - implement serialization/parsers for `std::tm` with the new custom structure/class
 
 # Documentation
 - src/
@@ -15,11 +14,19 @@ TODO:
     - [aliases.h](#aliases.h)
     - [time.h](#time.h)
     - [date_time.h](#date_time.h)
-  - entities
-  - files
-  - interface
-  - repository
-  - serialization
+  - entities/
+    - [account.h](#account.h)
+    - [transfer_state_switch.h](#transfer_state_switch.h)
+    - [transfer.h](#transfer.h)
+  - files/
+    - [file.h](#file.h)
+  - interface/
+    - [cli.h](#cli.h)
+  - repository/
+    - [app_repository_interface.h](#app_repository_interface.h)
+    - [file_repository.h](#file_repository.h)
+  - serialization/
+    - [json_serializers.h](#json_serializers.h)
   - [source.cpp](#source.cpp)
 
 
