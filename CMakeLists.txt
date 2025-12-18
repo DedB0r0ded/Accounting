@@ -1,4 +1,4 @@
-﻿cmake_minimum_required (VERSION 3.10)
+﻿cmake_minimum_required (VERSION 4.0)
 
 # Включение горячей перезагрузки для компиляторов MSVC, если поддерживается.
 if (POLICY CMP0141)
@@ -7,10 +7,10 @@ if (POLICY CMP0141)
 endif()
 
 project ("AccountingClient" LANGUAGES CXX)
-set(GIT_EXECUTABLE "D:/Utils/Git/bin/git.exe") 
+set(GIT_EXECUTABLE "C:/Program Files/Git/bin/git.exe") 
 
 # Add nlohmann json to project
-set(NLOHMANN_JSON_VERSION "v3.11.2")
+set(NLOHMANN_JSON_VERSION "v3.12.0")
 include(FetchContent)
 FetchContent_Declare(
 	json
