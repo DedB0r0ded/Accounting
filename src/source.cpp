@@ -87,10 +87,10 @@ int try_exec() {
 // App entry point
 int main() {
   // Set UTF-8 encoding of data on all systems
-  setlocale(LC_ALL, "");
+  const char* locale_result = setlocale(LC_ALL, "");
   // ifdef for Windows encoding
 #ifdef _WIN32
-  setlocale(LC_ALL, ".UTF-8");
+  locale_result = setlocale(LC_ALL, ".UTF-8");
   SetConsoleOutputCP(CP_UTF8);
 #endif
 
