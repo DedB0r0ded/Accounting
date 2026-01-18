@@ -6,4 +6,4 @@
 
 namespace accounting {
 class CLI {};
-} // namespace accounting
+} // nАmespace accounting

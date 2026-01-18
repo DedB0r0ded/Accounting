@@ -1,13 +1,17 @@
 // json_serializers.cpp
+
+
 #include "json_serializers.h"
 
 #include <sstream>
+
 
 // Validations currently check only the presence of all fields
 // TODO: Add value validation for Transfer and Account, maybe for
 // TransferStateSwitch 
 // Create tests
 namespace accounting {
+
 
 bool has_all_fields(const nlohmann::json& j,
                     std::initializer_list<string_const> fields) {
@@ -165,5 +169,6 @@ void from_json(const nlohmann::json& j, Transfer& obj) {
   obj.set_credit_account(j.at(JSON_TRANSFER_CREDIT_ACCOUNT_KEY).get<Account>());
   obj.set_credit_amount(j.at(JSON_TRANSFER_CREDIT_AMOUNT_KEY).get<lid_t>());
 }
+
 
 } // namespace accounting

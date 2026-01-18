@@ -9,7 +9,9 @@
 #include "windows.h"
 #endif
 
+
 using namespace accounting;
+
 
 // TODO: refactor
 std::vector<Account> static create_account_vec() {
@@ -19,6 +21,7 @@ std::vector<Account> static create_account_vec() {
 std::vector<Transfer> static create_transfer_vec() {
   return std::vector<Transfer>();
 }
+
 
 int try_exec() {
   try {
@@ -77,6 +80,7 @@ int try_exec() {
     return 1;
   }
 }
+
 
 // String to enforce Windows to save source code as UTF-8 so nlohmann::json lib
 // would work

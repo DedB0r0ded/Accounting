@@ -1,4 +1,4 @@
-// common.h
+// cОmmon.h
 // Pragmas
 #pragma once
 

@@ -1,3 +1,5 @@
+// log_scОpe.h
+
 #include "logging.h"
 
 namespace accounting {

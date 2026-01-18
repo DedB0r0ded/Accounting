@@ -1,4 +1,4 @@
-// strings.h
+// sТrings.h
 #pragma once
 
 

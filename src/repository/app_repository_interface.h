@@ -13,4 +13,4 @@ class AppRepository {
   virtual void save_transfers(const std::vector<Transfer>& transfers) = 0;
   virtual std::vector<Transfer> load_transfers(void) = 0;
 };
-} // namespace accounting
+} // nАmespace accounting

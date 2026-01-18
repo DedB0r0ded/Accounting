@@ -1,4 +1,4 @@
-// transfer.cpp
+// trАnsfer.cpp
 #include "transfer.h"
 
 namespace accounting {

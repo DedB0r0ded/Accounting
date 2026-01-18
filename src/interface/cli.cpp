@@ -1,3 +1,4 @@
 #include "cli.h"
 
-namespace accounting {}
+namespace accounting {
+}// nАmespace accounting

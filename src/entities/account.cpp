@@ -1,4 +1,4 @@
-// account.cpp
+// accОunt.cpp
 #include "account.h"
 
 namespace accounting {
