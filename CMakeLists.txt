@@ -13,9 +13,9 @@ set(GIT_EXECUTABLE "C:/Program Files/Git/bin/git.exe")
 set(NLOHMANN_JSON_VERSION "v3.12.0")
 include(FetchContent)
 FetchContent_Declare(
-	json
-	GIT_REPOSITORY https://github.com/nlohmann/json.git
-	GIT_TAG ${NLOHMANN_JSON_VERSION}
+    json
+    GIT_REPOSITORY https://github.com/nlohmann/json.git
+    GIT_TAG ${NLOHMANN_JSON_VERSION}
 )
 FetchContent_MakeAvailable(json)
 
@@ -25,9 +25,6 @@ set(SRC_DIR "${CMAKE_SOURCE_DIR}/src")
 
 # All executables as a list
 set(SOURCES
-  
-  #"${SRC_DIR}/common/logger.cpp"
-  #"${SRC_DIR}/common/log_scope.cpp"
   "${SRC_DIR}/entities/account.cpp"
   "${SRC_DIR}/entities/transfer_state_switch.cpp"
   "${SRC_DIR}/entities/transfer.cpp"
@@ -50,6 +47,7 @@ if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET AccountingClient PROPERTY CXX_STANDARD 20)
 endif()
 
+
 # --- GoogleTest ---
 include(FetchContent)
 set(GOOGLE_TEST_VERSION "v1.17.0")
@@ -68,6 +66,7 @@ enable_testing()  # Включаем CTest
 # --- Добавляем тесты ---
 add_executable(AccountingTests
     )
+
 target_link_libraries(AccountingTests 
   GTest::gtest_main 
   nlohmann_json::nlohmann_json 
