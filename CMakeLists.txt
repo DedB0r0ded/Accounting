@@ -7,7 +7,9 @@ if (POLICY CMP0141)
 endif()
 
 project ("AccountingClient" LANGUAGES CXX)
-set(GIT_EXECUTABLE "C:/Program Files/Git/bin/git.exe") 
+
+# Uncomment the line below to specify Git executable location if necessary
+#set(GIT_EXECUTABLE "C:/Program Files/Git/bin/git.exe") 
 
 # Add nlohmann json to project
 set(NLOHMANN_JSON_VERSION "v3.12.0")
