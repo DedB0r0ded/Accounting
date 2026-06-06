@@ -6,6 +6,22 @@
 #include <sstream>
 
 
+namespace acx {
+
+  // Unable to use tm directly, because nlohmann::json is trying to find parser
+  // inside the `std` namespace instead of `accounting`. Using custom Time class
+  // instead
+  void to_json(nlohmann::json& j, const Time& dt) {
+    j = dt.to_string();
+  }
+
+  void from_json(const nlohmann::json& j, Time& dt) {
+    dt = Time::from_string(j).value();
+  }
+
+}
+
+
 // Validations currently check only the presence of all fields
 // TODO: Add value validation for Transfer and Account, maybe for
 // TransferStateSwitch 
@@ -19,19 +35,6 @@ bool has_all_fields(const nlohmann::json& j,
     if (!j.contains(field)) return false;
   return true;
 }
-
-
-// Unable to use tm directly, because nlohmann::json is trying to find parser inside the `std` namespace instead of `accounting`.
-// Using custom Time class instead
-void to_json(nlohmann::json& j, const Time& dt) {
-  j = dt.to_string();
-}
-
-void from_json(const nlohmann::json& j, Time& dt) {
-  dt = Time::from_string(j).value();
-}
-
-
 
 // TransferStateSwitch
 bool is_valid_json_transfer_state_switch(const nlohmann::json& j) {

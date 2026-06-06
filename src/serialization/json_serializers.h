@@ -7,64 +7,72 @@
 #include "entities/transfer.h"
 
 
+namespace acx {
+
+  void to_json(nlohmann::json& j, const Time& t);
+  void from_json(const nlohmann::json& j, Time& t);
+
+}
+
+
 namespace accounting {
 
 
-    // Enum serialization macros
-    NLOHMANN_JSON_SERIALIZE_ENUM(AccountType, {{AccountType::NONE, "none"},
-                                               {AccountType::PASSIVE, "passive"},
-                                               {AccountType::ACTIVE, "active"}})
+  // Enum serialization macros
+  NLOHMANN_JSON_SERIALIZE_ENUM(AccountType, {{AccountType::NONE, "none"},
+                                              {AccountType::PASSIVE, "passive"},
+                                              {AccountType::ACTIVE, "active"}})
 
-    NLOHMANN_JSON_SERIALIZE_ENUM(Currency, {{Currency::NONE, "none"},
-                                            {Currency::USD, "usd"},
-                                            {Currency::MYR, "myr"},
-                                            {Currency::BYN, "byn"}})
-
-
-    // General validation
-    bool has_all_fields(const nlohmann::json& j, std::initializer_list<const char*> fields);
+  NLOHMANN_JSON_SERIALIZE_ENUM(Currency, {{Currency::NONE, "none"},
+                                          {Currency::USD, "usd"},
+                                          {Currency::MYR, "myr"},
+                                          {Currency::BYN, "byn"}})
 
 
-    // tm serialization
-    void to_json(nlohmann::json& j, const tm& t);
-
-    void from_json(const nlohmann::json& j, tm& t);
+  // General validation
+  bool has_all_fields(const nlohmann::json& j, std::initializer_list<const char*> fields);
 
 
-    // std::optional<tm> serialization
-    void to_json(nlohmann::json& j, const opt<tm>& ot);
+  // tm serialization
+  void to_json(nlohmann::json& j, const tm& t);
 
-    void from_json(const nlohmann::json& j, opt<tm>& ot);
-
-
-    // TransferStateSwitch serialization
-    bool is_valid_json_transfer_state_switch(const nlohmann::json& j);
-
-    void to_json(nlohmann::json& j, const TransferStateSwitch& state_switch);
-
-    void from_json(const nlohmann::json& j, TransferStateSwitch& state_switch);
+  void from_json(const nlohmann::json& j, tm& t);
 
 
-    // TransferState serialization
-    void to_json(nlohmann::json& j, const TransferState& transfer_state);
+  // std::optional<tm> serialization
+  void to_json(nlohmann::json& j, const opt<tm>& ot);
 
-    void from_json(const nlohmann::json& j, TransferState& transfer_state);
-
-
-    // Account sеrialization
-    bool is_valid_json_account(const nlohmann::json& j);
-
-    void to_json(nlohmann::json& j, const Account& obj);
-
-    void from_json(const nlohmann::json& j, Account& obj);
+  void from_json(const nlohmann::json& j, opt<tm>& ot);
 
 
-    // Transfer serialization
-    bool is_valid_json_transfer(const nlohmann::json& j);
+  // TransferStateSwitch serialization
+  bool is_valid_json_transfer_state_switch(const nlohmann::json& j);
 
-    void to_json(nlohmann::json& j, const Transfer& obj);
+  void to_json(nlohmann::json& j, const TransferStateSwitch& state_switch);
 
-    void from_json(const nlohmann::json& j, Transfer& obj);
+  void from_json(const nlohmann::json& j, TransferStateSwitch& state_switch);
+
+
+  // TransferState serialization
+  void to_json(nlohmann::json& j, const TransferState& transfer_state);
+
+  void from_json(const nlohmann::json& j, TransferState& transfer_state);
+
+
+  // Account sеrialization
+  bool is_valid_json_account(const nlohmann::json& j);
+
+  void to_json(nlohmann::json& j, const Account& obj);
+
+  void from_json(const nlohmann::json& j, Account& obj);
+
+
+  // Transfer serialization
+  bool is_valid_json_transfer(const nlohmann::json& j);
+
+  void to_json(nlohmann::json& j, const Transfer& obj);
+
+  void from_json(const nlohmann::json& j, Transfer& obj);
 
 
 } // namespace accounting
