@@ -33,18 +33,6 @@ namespace accounting {
   bool has_all_fields(const nlohmann::json& j, std::initializer_list<const char*> fields);
 
 
-  // tm serialization
-  void to_json(nlohmann::json& j, const tm& t);
-
-  void from_json(const nlohmann::json& j, tm& t);
-
-
-  // std::optional<tm> serialization
-  void to_json(nlohmann::json& j, const opt<tm>& ot);
-
-  void from_json(const nlohmann::json& j, opt<tm>& ot);
-
-
   // TransferStateSwitch serialization
   bool is_valid_json_transfer_state_switch(const nlohmann::json& j);
 
