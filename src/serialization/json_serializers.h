@@ -2,14 +2,9 @@
 #pragma once
 
 
-#include "common/common.h"
+#include <common/common.h>
 #include "entities/account.h"
 #include "entities/transfer.h"
-
-
-using std::declval;
-using std::is_same;
-using std::void_t;
 
 
 namespace accounting {
@@ -37,9 +32,9 @@ namespace accounting {
 
 
     // std::optional<tm> serialization
-    void to_json(nlohmann::json& j, const optional_tm& ot);
+    void to_json(nlohmann::json& j, const opt<tm>& ot);
 
-    void from_json(const nlohmann::json& j, optional_tm& ot);
+    void from_json(const nlohmann::json& j, opt<tm>& ot);
 
 
     // TransferStateSwitch serialization

@@ -14,26 +14,23 @@ namespace accounting {
 
 
 bool has_all_fields(const nlohmann::json& j,
-                    std::initializer_list<string_const> fields) {
+                    std::initializer_list<std::string_view> fields) {
   for (auto field : fields)
     if (!j.contains(field)) return false;
   return true;
 }
 
 
-#ifdef USE_CUSTOM_DATE_TIME
 // Unable to use tm directly, because nlohmann::json is trying to find parser inside the `std` namespace instead of `accounting`.
-// Using custom DateTime struct instead
-void to_json(nlohmann::json& j, const DateTime& dt) {
+// Using custom Time class instead
+void to_json(nlohmann::json& j, const Time& dt) {
   j = dt.to_string();
 }
 
-void from_json(const nlohmann::json& j, DateTime& dt) {
-  // TODO: FINISH. ADD OPT VALIDATION
-  // TODO: ADD UTC-MAKER TO TIME.H
-  dt = from_string(j);
+void from_json(const nlohmann::json& j, Time& dt) {
+  dt = Time::from_string(j).value();
 }
-#endif
+
 
 
 // TransferStateSwitch
@@ -157,7 +154,7 @@ void from_json(const nlohmann::json& j, Transfer& obj) {
     return;
   }
   obj.set_id(j.at(JSON_TRANSFER_ID_KEY).get<lid_t>());
-  obj.set_date_time(j.at(JSON_TRANSFER_DATE_TIME_KEY).get<DateTime>());
+  obj.set_date_time(j.at(JSON_TRANSFER_DATE_TIME_KEY).get<Time>());
   obj.set_conversion_rate(
       j.at(JSON_TRANSFER_CONVERSION_RATE_KEY).get<double>());
   obj.set_state_switch(

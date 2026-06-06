@@ -37,8 +37,8 @@ int try_exec() {
     if (file_repo.transfers_file_exists())
     transfers = file_repo.load_transfers();
     // Output
-    for (auto acc : accounts) std::cout << json(acc) << '\n';
-    for (auto tr : transfers) std::cout << json(tr) << '\n';
+    for (auto acc : accounts) std::cout << nlohmann::json(acc) << '\n';
+    for (auto tr : transfers) std::cout << nlohmann::json(tr) << '\n';
 
     // Create test accounts
     Account account1 =
@@ -51,7 +51,7 @@ int try_exec() {
     accounts.push_back(account2);
 
     // Get current time as C-like tm struct
-    tm current_time = get_current_time_tm();
+    tm current_time = Time::now().value().to_tm();
     std::cout << current_time.tm_year << '.' << current_time.tm_mon << '.'
               << current_time.tm_mday << '\n';
 
@@ -65,7 +65,7 @@ int try_exec() {
     } else {
       std::cout << "\nОшибка перевода: " << transfer.err_msg() << "\n";
     }
-    json jt;
+    nlohmann::json jt;
     to_json(jt, transfer);
     std::cout << "Transfer: " << jt << '\n';
     transfers.push_back(transfer);

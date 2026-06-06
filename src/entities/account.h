@@ -2,14 +2,14 @@
 #pragma once
 
 
-#include "common/common.h"
+#include <common/common.h>
 
 
 namespace accounting {
 
 
   class Account {
-    private: // fields
+  private: 
     id_t id_;
     string name_;
     i32 balance_;
@@ -19,25 +19,29 @@ namespace accounting {
     std::mutex mutex_;
 
 
-    public:
-    // Ctors
+  public:
+    // ===== Ctors =====
+
     Account();
     Account(id_t id, Currency currency, string name, i32 balance, AccountType type);
     Account(const Account& other);
     Account(Account&& other) noexcept;
 
 
-    // Comparison ops
+    // ===== Comparison =====
+
     bool operator==(const Account& other) const;
     bool operator!=(const Account& other) const;
 
 
-    // Assignment ops
+    // ===== Assignment =====
+
     Account& operator=(const Account& other);
     Account& operator=(Account&& other) noexcept;
 
 
-    // Getters
+    // ===== Getters =====
+
     id_t id() const;
     string name() const;
     i32 balance() const;
@@ -46,7 +50,8 @@ namespace accounting {
     std::mutex& get_mutex();
 
 
-    // Setters
+    // ===== Setters =====
+
     void set_id(id_t value);
     void set_name(string value);
     void set_balance(i32 value);
@@ -54,12 +59,13 @@ namespace accounting {
     void set_currency(Currency value);
 
 
-    // Balance methods
+    // ===== Domain =====
+
     bool increase_balance(i32 amount);
     bool decrease_balance(i32 amount);
 
 
-    // Output op (NOT a json parser)
+    /// Output op (NOT a json parser)
     friend std::ostream& operator<<(std::ostream& os, const Account& account);
   };
 

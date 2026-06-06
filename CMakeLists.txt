@@ -36,11 +36,18 @@ set(SOURCES
   "${SRC_DIR}/source.cpp"
 )
 
+FetchContent_Declare(
+    acx
+    GIT_REPOSITORY https://github.com/DedB0r0ded/LibACX.git
+    GIT_TAG main
+)
+FetchContent_MakeAvailable(acx)
 
 add_executable (AccountingClient ${SOURCES})
 
 set_target_properties(AccountingClient PROPERTIES LINKER_LANGUAGE CXX)
 target_link_libraries(AccountingClient PRIVATE nlohmann_json::nlohmann_json)
+target_link_libraries(AccountingClient PRIVATE acx)
 
 target_include_directories(AccountingClient PRIVATE ${CMAKE_SOURCE_DIR})
 target_include_directories(AccountingClient PRIVATE ${SRC_DIR})
@@ -48,31 +55,3 @@ target_include_directories(AccountingClient PRIVATE ${SRC_DIR})
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET AccountingClient PROPERTY CXX_STANDARD 20)
 endif()
-
-
-# --- GoogleTest ---
-include(FetchContent)
-set(GOOGLE_TEST_VERSION "v1.17.0")
-FetchContent_Declare(
-    googletest
-    GIT_REPOSITORY https://github.com/google/googletest.git
-    GIT_TAG ${GOOGLE_TEST_VERSION}
-)
-# Для Windows, чтобы не было конфликтов с MSVC runtime
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-FetchContent_MakeAvailable(googletest)
-
-
-enable_testing()  # Включаем CTest
-
-# --- Добавляем тесты ---
-add_executable(AccountingTests
-    )
-
-target_link_libraries(AccountingTests 
-  GTest::gtest_main 
-  nlohmann_json::nlohmann_json 
-)
-
-include(GoogleTest)
-gtest_discover_tests(AccountingTests)

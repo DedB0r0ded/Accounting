@@ -45,9 +45,9 @@ Strings are devided in logical sections. First word of macro name is either a se
 Contains the aliases for the types used in the project:
 - numerics from `cstdint`: `i8`, `i32`, `u8`, `u32`, `u64`
 - numerics for identifiers like 16-bit unsigned `id_t` and 64-bit unsigned `lid_t` 
-- `optional_tm` for `std::optional<std::tm>`. Actual redundant, might be removed in the future
+- `opt<tm>` for `std::optional<std::tm>`. Actual redundant, might be removed in the future
 - `uptr` for `std::unique_ptr`
-- `sptr` for `std::shared_ptr`
+- `sp` for `std::shared_ptr`
 
 Aliases are defined with `using` keyword.  
 Also contains some `using`s for `std` namespace types:  
@@ -71,21 +71,21 @@ Contains small `inline` functions for basic time operations.
 
 ### date_time.h
 *Includes:* "./time.h"
-Contains custom `DateTime` wrapper type for `std::tm`. 
+Contains custom `Time` wrapper type for `std::tm`. 
 `nlohmann::json` can't parse `std::tm` using `to_json` and `from_json` overloads
  from `accounting` namespace. There are several ways to solve this issue.
  Creating custom wrapper type within `accounting` namespace is one of them.
 
-`DateTime` class:
+`Time` class:
 - Rule of five implemented (default ctor, copy ctor, move ctor, copy assignment, move assignment)
-- `explicit DateTime(const tm& t)` creates a `DateTime` instance based on `std::tm` reference provided. Marked `explicit` to prevent implicit conversions
-- `explicit DareTime(const optional_tm& t)` creates a `DateTime` instance from `optional_tm` reference. See [aliases.h](#aliases.h) for `optional_tm` definition
-- `DateTime& operator=(const tm& t)` assignment operator. Sets internal value to `std::tm` provided 
-- `DateTime& operator=(const optional_tm& t)` assignment operator. Sets internal container to `optional_tm` provided. See [aliases.h](#aliases.h) for `optional_tm` definition
+- `explicit Time(const tm& t)` creates a `Time` instance based on `std::tm` reference provided. Marked `explicit` to prevent implicit conversions
+- `explicit DareTime(const opt<tm>& t)` creates a `Time` instance from `opt<tm>` reference. See [aliases.h](#aliases.h) for `opt<tm>` definition
+- `Time& operator=(const tm& t)` assignment operator. Sets internal value to `std::tm` provided 
+- `Time& operator=(const opt<tm>& t)` assignment operator. Sets internal container to `opt<tm>` provided. See [aliases.h](#aliases.h) for `opt<tm>` definition
 - `constexpr const tm& value()` returns `std::tm` internal value
 - `constexpr bool is_null()` returns true if internal container is `std::nullopt`
 - `void reset()` resets internal container to `std::nullopt`
-- `operator<<` overload. "null" if `DateTime` instance has no value. `ISO8601`-stringified `DateTime` otherwise 
+- `operator<<` overload. "null" if `Time` instance has no value. `ISO8601`-stringified `Time` otherwise 
 
 
 ## entities
