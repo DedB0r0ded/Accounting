@@ -3,6 +3,7 @@
 #include <common/common.h>
 #include "entities/account.h"
 #include "entities/transfer.h"
+#include <entities/user.h>
 
 namespace accounting {
 
