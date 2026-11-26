@@ -13,7 +13,7 @@ TODO:
 
 # Documentation
 - doc/
-  - [research.md] (#research.md)
+  - [research.md](#research.md)
 - src/
   - common/
     - [strings.h](#strings.h)
