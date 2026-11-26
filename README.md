@@ -12,6 +12,8 @@ TODO:
 - - implement conditional compilation in `transfer.cpp` and `transfer.h` depending on `USE_CUSTOM_DATE_TIME_`
 
 # Documentation
+- doc/
+  - [research.md] (#research.md)
 - src/
   - common/
     - [strings.h](#strings.h)
@@ -32,6 +34,9 @@ TODO:
   - serialization/
     - [json_serializers.h](#json_serializers.h)
   - [source.cpp](#source.cpp)
+
+## research.md
+This `.md` file contains the research subjects for future development. You can see it [here](/doc/research.md).
 
 
 ## common
