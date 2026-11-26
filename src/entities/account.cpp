@@ -153,16 +153,14 @@ Result<void> Account::set_type(AccountType value) {
 // Balance methods
 bool Account::increase_balance(i32 amount) {
   if (amount < 0) return false;
-  if (amount >= std::numeric_limits<i32>::max()) return false;
-  if (amount > std::numeric_limits<i32>::max() - balance_) return false;
   if (!is_valid()) return false;
+  if (amount > std::numeric_limits<i32>::max() - balance_) return false;
   balance_ += amount;
   return true;
 }
 
 bool Account::decrease_balance(i32 amount) {
   if (amount < 0) return false;
-  if (amount >= std::numeric_limits<i32>::max()) return false;
   if (!is_valid()) return false;
   if (balance_ < amount) return false;
   balance_ -= amount;
