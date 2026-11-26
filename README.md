@@ -104,7 +104,7 @@ Invariants:
   - Account type is NONE;
   - Account currency is NONE;
   - Account was cancelled (account "CANCELLED" flag).
-- No actions on account must be permited if account is considered invalid.
+- No financial operations on an account must be permited if the account is invalid.
 
 ### transfer.h
 Defines `Transfer` class interface.
