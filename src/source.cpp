@@ -34,9 +34,9 @@ int main(char* argv[], int argc) {
   locale_result = setlocale(LC_ALL, ".UTF-8");
   SetConsoleOutputCP(CP_UTF8);
 #endif
-  auto state = acx::AppState(std::cout, std::cin);
-  if (!cli_start(argv, argc, state)) {
-    return -1;
-  }
+
+
+  
+
   return 0;
 }

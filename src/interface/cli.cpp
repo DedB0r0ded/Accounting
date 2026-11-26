@@ -10,8 +10,8 @@ namespace accounting {
   }
 
 
-  Result<void> cli_start(char* argv[], int argc, AppState& state) {
-    auto& os = state.os;
+  Result<void> cli_start(char* argv[], int argc, App& state) {
+      /* auto& os = state.os;
     auto& is = state.is;
     bool running = true;
     while (running) {
@@ -47,36 +47,29 @@ namespace accounting {
           await_return(is);
           break;
       }
-    }
+    }*/
     return Ok();
   }
 
-  Result<void> user_menu(AppState& state) {
+  Result<void> user_menu(App& state) {
     return Ok();
   }
 
-  Result<void> account_menu(AppState& state) {
+  Result<void> account_menu(App& state) {
     return Ok();
   }
 
-  Result<void> transfer_menu(AppState& state) {
+  Result<void> transfer_menu(App& state) {
     return Ok();
   }
 
-  Result<void> sign_in_menu(AppState& state) {
+  Result<void> sign_in_menu(App& state) {
     return Ok();
   }
 
-  Result<User> sign_up_menu(AppState& state) {
-    auto& os = state.os;
-    auto& is = state.is;
-    bool running = true;
-    string email{};
-    string name{};
-    string pwd{};
-    id_t id{};
+  Result<User> sign_up_menu(App& state) {
 
-    return Ok<User>(User);
+    return Ok<User>(User());
   }
 
 }// nАmespace accounting

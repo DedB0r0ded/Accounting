@@ -9,7 +9,7 @@ namespace accounting {
 
 
   // Application UI (CLI) entry point
-  Result<void> cli_start(char* argv[], int argc, AppState& state);
+  Result<void> cli_start(char* argv[], int argc, App& state);
 
 
 } // nАmespace accounting
