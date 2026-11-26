@@ -151,7 +151,7 @@ Result<void> Account::set_type(AccountType value) {
 bool Account::increase_balance(i32 amount) {
   if (amount < 0) return false;
   if (amount >= std::numeric_limits<i32>::max()) return false;
-  if (amount >= std::numeric_limits<i32>::max() - balance_) return false;
+  if (amount > std::numeric_limits<i32>::max() - balance_) return false;
   if (!is_valid()) return false;
   balance_ += amount;
   return true;
@@ -178,9 +178,8 @@ std::ostream& operator<<(std::ostream& os, const Account& account) {
      << "; Currency: " << to_full_string(account.currency_) << ";\n";
   os << "Account type: " << to_string(account.type_)
      << "; Balance: " << account.balance_ << ";\n"
-     << "Flags: CANCELLED = " << account.is_cancelled()
-      ? '1' : '0';
-  os << '.';
+     << "Flags: CANCELLED = " << (account.is_cancelled()
+      ? '1' : '0') << '.';
   return os;
 }
 
