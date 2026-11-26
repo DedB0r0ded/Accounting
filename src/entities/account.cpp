@@ -2,6 +2,17 @@
 #include "account.h"
 
 namespace accounting {
+bool Account::has_valid_type() const {
+  return type_ != AccountType::NONE;
+}
+
+bool Account::has_valid_currency() const {
+  return currency_ != Currency::NONE;
+}
+
+bool Account::has_valid_balance() const {
+  return balance_ >= 0;
+}
 
 // ctors
 Account::Account()
@@ -86,6 +97,10 @@ i32 Account::balance() const {
 
 AccountType Account::type() const {
   return type_;
+}
+
+bool Account::is_valid() const {
+  return has_valid_balance() && has_valid_currency() && has_valid_type();
 }
 
 std::mutex& Account::get_mutex() {

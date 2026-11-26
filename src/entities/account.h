@@ -18,6 +18,9 @@ namespace accounting {
 
     std::mutex mutex_;
 
+    bool has_valid_type() const;
+    bool has_valid_currency() const;
+    bool has_valid_balance() const;
 
   public:
     // ===== Ctors =====
@@ -47,6 +50,7 @@ namespace accounting {
     i32 balance() const;
     AccountType type() const;
     Currency currency() const;
+    bool is_valid() const;
     std::mutex& get_mutex();
 
 
