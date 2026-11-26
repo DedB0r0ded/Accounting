@@ -63,8 +63,8 @@ namespace accounting {
     void set_id(id_t value);
     void set_name(string value);
     void set_balance(i32 value);
-    void set_type(AccountType value);
-    void set_currency(Currency value);
+    Result<void> set_currency(Currency value);
+    Result<void> set_type(AccountType value);
 
 
     // ===== Domain =====

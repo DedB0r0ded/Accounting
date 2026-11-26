@@ -3,11 +3,11 @@
 
 namespace accounting {
 bool Account::has_valid_type() const {
-  return type_ != AccountType::NONE;
+  return is_valid_account_type(type_);
 }
 
 bool Account::has_valid_currency() const {
-  return currency_ != Currency::NONE;
+  return is_valid_currency(currency_);
 }
 
 bool Account::has_valid_balance() const {
@@ -127,10 +127,6 @@ void Account::set_id(id_t value) {
   id_ = value;
 }
 
-void Account::set_currency(Currency value) {
-  currency_ = value;
-}
-
 void Account::set_name(string value) {
   name_ = value;
 }
@@ -139,15 +135,23 @@ void Account::set_balance(i32 value) {
   balance_ = value;
 }
 
-void Account::set_type(AccountType value) {
+Result<void> Account::set_currency(Currency value) {
+  if (!is_valid_currency(value)) return Err();
+  currency_ = value;
+  return Ok();
+}
+
+Result<void> Account::set_type(AccountType value) {
+  if (!is_valid_account_type(value)) return Err();
   type_ = value;
+  return Ok();
 }
 
 // Balance methods
 bool Account::increase_balance(i32 amount) {
   if (amount < 0) return false;
   if (amount >= std::numeric_limits<i32>::max()) return false;
-  if (amount + balance_ >= std::numeric_limits<i32>::max()) return false;
+  if (amount >= std::numeric_limits<i32>::max() - balance_) return false;
   if (!is_valid()) return false;
   balance_ += amount;
   return true;

@@ -75,13 +75,8 @@ namespace accounting {
       err_msg_ = "Invalid transfer amount.";
       return false;
     }
-    if (dr_equals_cr && same_currency) return true;
-    if (dr_equals_cr) {
-      err_msg_ = "Debit and credit are equal, but have different currencies";
-      return false;
-    }
-    if (same_currency) {
-      err_msg_ = "Debit and credit are not equal.";
+    if (!dr_equals_cr && same_currency) {
+      err_msg_ = "Currencies are the same, but debit and credit are not equal.";
       return false;
     }
     if (!validate_conversion_rate()) {

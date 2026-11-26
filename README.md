@@ -5,6 +5,8 @@ TODO:
 - P1: refactor methods in `file.h`. Make them all write and read in the same format. Add content check: don't add a new array in the file, if there's an array already; if there is one or zero elements and we need to add more, then push existent entity in front of vector and only after that - write everything into file together. Maybe remove `write(entity)`, `std::optional<entity> read_one()` and `append(entity)` and leave only `write(std::vector<entity>)`, `std::vector<entity> read_all()` and `append(std::vector<entity>)`;
 - P2: implement registering or fabric interface for domain error types; 
 - P3: implement multithreading.
+- P3: add exchange rate caching.
+- P3: create fixed-point numeric.
 - P3: finish logging system: `src/common/logger.cpp`, `src/common/logger.h`, `src/common/log_scope.cpp` and `src/common/logging.h`.
 
 - - implement conditional compilation in `transfer.cpp` and `transfer.h` depending on `USE_CUSTOM_DATE_TIME_`

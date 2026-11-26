@@ -29,6 +29,29 @@ namespace accounting {
                                      static_cast<acx::u8>(val));
   }
 
+  constexpr bool is_valid_currency(Currency c) {
+    switch (c) {
+      case Currency::USD:
+      case Currency::MYR:
+      case Currency::BYN:
+        return true;
+      case Currency::NONE:
+      default:
+        return false;
+    }
+  }
+
+  constexpr bool is_valid_account_type(AccountType a) {
+    switch (a) {
+      case AccountType::PASSIVE:
+      case AccountType::ACTIVE:
+        return true;
+      case AccountType::NONE:
+      default:
+        return false;
+    }
+  }
+
   constexpr std::string_view to_string(const Currency currency) {
     switch (currency) {
       case Currency::USD:
