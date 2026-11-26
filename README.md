@@ -1,9 +1,10 @@
 TODO:
-- make a `README.md`
-- finish logging system: `src/common/logger.cpp`, `src/common/logger.h`, `src/common/log_scope.cpp` and `src/common/logging.h`
-- refactor methods in `file.h`. Make them all write and read in the same format. Add content check: don't add a new array in the file, if there's an array already; if there is one or zero elements and we need to add more, then push existent entity in front of vector and only after that - write everything into file together. Maybe remove `write(entity)`, `std::optional<entity> read_one()` and `append(entity)` and leave only `write(std::vector<entity>)`, `std::vector<entity> read_all()` and `append(std::vector<entity>)`
-- test methods from `src/repository/file_repository.cpp|.h`
-- implement Command Line Interface (CLI) in `src/interface/cli.cpp|.h`
+- P0: enforce invariants on `Transfer` and `Account`;
+- P1: implement Command Line Interface (CLI) in `src/interface/cli.cpp|.h`;
+- P2: write tests;
+- P2: refactor methods in `file.h`. Make them all write and read in the same format. Add content check: don't add a new array in the file, if there's an array already; if there is one or zero elements and we need to add more, then push existent entity in front of vector and only after that - write everything into file together. Maybe remove `write(entity)`, `std::optional<entity> read_one()` and `append(entity)` and leave only `write(std::vector<entity>)`, `std::vector<entity> read_all()` and `append(std::vector<entity>)`;
+- P3: implement multithreading.
+- P3: finish logging system: `src/common/logger.cpp`, `src/common/logger.h`, `src/common/log_scope.cpp` and `src/common/logging.h`.
 
 - - implement conditional compilation in `transfer.cpp` and `transfer.h` depending on `USE_CUSTOM_DATE_TIME_`
 
@@ -89,6 +90,30 @@ Contains custom `Time` wrapper type for `std::tm`.
 
 
 ## entities
+Data entities, used within the application.
+
+### account.h
+Defines `Account` class interface.
+Invariants:
+- Account must have non-zero id.
+- Account balance can't be negative.
+- Account is considered invalid if ANY of the following is true:
+  - Account type is NONE;
+  - Account currency is NONE;
+  - Account was cancelled (account "CANCELLED" flag).
+- No actions on account must be permited if account is considered invalid.
+
+### transfer.h
+Defines `Transfer` class interface.
+Invariants:
+- Transfer doesn't add or reduce funds if any of the invariants are not followed.
+- Both credit and debit amounts must be positive. Not zero, not negative value.
+- Transfer credit amount mustn't be more than credit balance.
+- Same transfer mustn't be commited more than one time.
+- Both accounts mustn't be empty or nullptr.
+- Both accounts must be valid.
+- Credit account and debit account must be different accounts.
+
 ## files
 ## interface
 ## repository

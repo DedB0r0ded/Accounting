@@ -35,8 +35,7 @@ int main(char* argv[], int argc) {
   SetConsoleOutputCP(CP_UTF8);
 #endif
 
-
-  
+    
 
   return 0;
 }
