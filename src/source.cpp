@@ -26,7 +26,7 @@ struct DomainState {
 };
 
 
-int main(char* argv[], int argc) {
+int main(int argc, char* argv[]) {
   // Set UTF-8 encoding of data on all systems
   const char* locale_result = setlocale(LC_ALL, "");
   // ifdef for Windows encoding
