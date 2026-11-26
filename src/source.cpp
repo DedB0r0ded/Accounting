@@ -44,7 +44,8 @@ int main(char* argv[], int argc) {
 
   auto t = Time();
 
-  auto salary = Transfer(1, t.to_tm(), nullptr, job, 207);
+  auto salary = Transfer(1, t.to_tm(), alfa_byn, job, 207);
+  job->cancel();
   salary.commit();
   salary.commit();
 

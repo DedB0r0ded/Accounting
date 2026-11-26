@@ -24,6 +24,11 @@ namespace accounting {
     return (static_cast<acx::u8>(src) & static_cast<acx::u8>(chk)) == static_cast<acx::u8>(chk);
   }
 
+  static inline AccountFlags bitmask_join(const AccountFlags src, const AccountFlags val) {
+    return static_cast<AccountFlags>(static_cast<acx::u8>(src) |
+                                     static_cast<acx::u8>(val));
+  }
+
   constexpr std::string_view to_string(const Currency currency) {
     switch (currency) {
       case Currency::USD:

@@ -109,12 +109,13 @@ AccountType Account::type() const {
   return type_;
 }
 
-bool Account::is_closed() const {
+bool Account::is_cancelled() const {
   return bitmask_contains(flags_, AccountFlags::CANCELLED);
 }
 
 bool Account::is_valid() const {
-  return !is_closed() && has_valid_id() && has_valid_balance() && has_valid_currency() && has_valid_type();
+  return !is_cancelled() && has_valid_id() && has_valid_balance() &&
+         has_valid_currency() && has_valid_type();
 }
 
 std::mutex& Account::get_mutex() {
@@ -144,14 +145,26 @@ void Account::set_type(AccountType value) {
 
 // Balance methods
 bool Account::increase_balance(i32 amount) {
+  if (amount < 0) return false;
+  if (amount >= std::numeric_limits<i32>::max()) return false;
+  if (amount + balance_ >= std::numeric_limits<i32>::max()) return false;
+  if (!is_valid()) return false;
   balance_ += amount;
   return true;
 }
 
 bool Account::decrease_balance(i32 amount) {
+  if (amount < 0) return false;
+  if (amount >= std::numeric_limits<i32>::max()) return false;
+  if (!is_valid()) return false;
   if (balance_ < amount) return false;
   balance_ -= amount;
   return true;
+}
+
+bool Account::cancel() {
+  flags_ = bitmask_join(flags_, AccountFlags::CANCELLED);
+  return is_cancelled();
 }
 
 // Output op (NOT a json parser)
@@ -161,7 +174,7 @@ std::ostream& operator<<(std::ostream& os, const Account& account) {
      << "; Currency: " << to_full_string(account.currency_) << ";\n";
   os << "Account type: " << to_string(account.type_)
      << "; Balance: " << account.balance_ << ";\n"
-     << "Flags: CLOSED = " << account.is_closed()
+     << "Flags: CANCELLED = " << account.is_cancelled()
       ? '1' : '0';
   os << '.';
   return os;

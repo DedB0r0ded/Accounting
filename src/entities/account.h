@@ -28,7 +28,7 @@ namespace accounting {
     // ===== Ctors =====
 
     Account();
-   Account(id_t id, Currency currency, string name, i32 balance,
+    Account(id_t id, Currency currency, string name, i32 balance,
            AccountType type, AccountFlags flags = AccountFlags::NONE);
     Account(const Account& other);
     Account(Account&& other) noexcept;
@@ -53,7 +53,7 @@ namespace accounting {
     i32 balance() const;
     AccountType type() const;
     Currency currency() const;
-    bool is_closed() const;
+    bool is_cancelled() const;
     bool is_valid() const;
     std::mutex& get_mutex();
 
@@ -71,6 +71,7 @@ namespace accounting {
 
     bool increase_balance(i32 amount);
     bool decrease_balance(i32 amount);
+    bool cancel();
 
 
     /// Output op (NOT a json parser)
