@@ -35,7 +35,18 @@ int main(char* argv[], int argc) {
   SetConsoleOutputCP(CP_UTF8);
 #endif
 
-    
+  auto education = std::make_shared<Account>
+    (Account(10, Currency::BYN, "Education fees", 0, AccountType::PASSIVE));
+  auto job = std::make_shared<Account>
+    (Account(20, Currency::BYN, "Job income", 2500, AccountType::ACTIVE));
+  auto alfa_byn = std::make_shared<Account>
+    (Account(30, Currency::BYN, "Alfa-bank debit card (BYN)", 100, AccountType::ACTIVE));
+
+  auto t = Time();
+
+  auto salary = Transfer(1, t.to_tm(), nullptr, job, 207);
+  salary.commit();
+  salary.commit();
 
   return 0;
 }

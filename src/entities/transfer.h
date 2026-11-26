@@ -32,6 +32,9 @@ class Transfer {
   bool same_currency_used() const;
   bool validate_conversion_rate() const;
   bool any_value_is_null() const;
+  bool accounts_are_valid() const;
+  bool accounts_are_same() const;
+  bool amounts_are_positive() const;
   bool validate_transfer();
   void update_validity();
   bool decrease_credit_account();

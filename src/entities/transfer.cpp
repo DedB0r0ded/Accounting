@@ -16,7 +16,7 @@ namespace accounting {
   }
 
   void Transfer::calc_and_reset_conversion_rate() {
-    conversion_rate_ = debit_amount_ / credit_amount_;
+    conversion_rate_ = static_cast<double>(debit_amount_) / static_cast<double>(credit_amount_);
   }
 
 
@@ -40,9 +40,20 @@ namespace accounting {
     if (debit_account_ == nullptr) return true;
     if (credit_account_ == nullptr) return true;
     if (debit_amount_ == 0 || credit_amount_ == 0) return true;
-    if (debit_currency() == Currency::NONE) return true;
-    if (credit_currency() == Currency::NONE) return true;
     return false;
+  }
+
+  bool Transfer::accounts_are_valid() const {
+    return debit_account_->is_valid() && credit_account_->is_valid();
+  }
+
+  bool Transfer::accounts_are_same() const {
+    return debit_account_ == credit_account_ ||
+           debit_account_->id() == credit_account_->id();
+  }
+
+  bool Transfer::amounts_are_positive() const {
+    return debit_amount_ > 0 && credit_amount_ > 0;
   }
 
   bool Transfer::validate_transfer() {
@@ -50,8 +61,20 @@ namespace accounting {
       err_msg_ = "Some value is null or undefined.";
       return false;
     }
+    if (accounts_are_same()) {
+      err_msg_ = "Debit and credit accounts are the same.";
+      return false;
+    }
+    if (!accounts_are_valid()) {
+      err_msg_ = "One or both accounts are invalid.";
+      return false;
+    }
     bool dr_equals_cr = debit_equals_credit();
     bool same_currency = same_currency_used();
+    if (!amounts_are_positive()) {
+      err_msg_ = "Invalid transfer amount.";
+      return false;
+    }
     if (dr_equals_cr && same_currency) return true;
     if (dr_equals_cr) {
       err_msg_ = "Debit and credit are equal, but have different currencies";
@@ -65,6 +88,7 @@ namespace accounting {
       err_msg_ = "Invalid conversion rate.";
       return false;
     }
+    
     return true;
   }
 
@@ -238,6 +262,7 @@ namespace accounting {
 
   // =====Main method
   bool Transfer::commit() {
+    if (state_switch_.is_finished()) return false;
     update_validity();
     if (!state_switch_.is_validated()) return false;
     std::mutex& dr_mtx = debit_account_->get_mutex();
