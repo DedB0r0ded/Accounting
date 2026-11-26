@@ -15,10 +15,14 @@ namespace accounting {
 
   enum class AccountType : acx::u8 { NONE = 0, PASSIVE, ACTIVE };
 
-  enum class AccountFlags : acx::u8 { OPENED = ~(1 << 1), CANCELLED = 1 << 1 };
+  enum class AccountFlags : acx::u8 { NONE = 0, CANCELLED = 1 << 1 };
 
 
   // ===== Helpers =====
+
+  static inline bool bitmask_contains(const AccountFlags src, const AccountFlags chk) {
+    return (static_cast<acx::u8>(src) & static_cast<acx::u8>(chk)) == static_cast<acx::u8>(chk);
+  }
 
   constexpr std::string_view to_string(const Currency currency) {
     switch (currency) {

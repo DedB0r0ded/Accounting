@@ -14,20 +14,26 @@ bool Account::has_valid_balance() const {
   return balance_ >= 0;
 }
 
+bool Account::has_valid_id() const {
+  return id_ != 0;
+}
+
 // ctors
 Account::Account()
     : id_{0},
       currency_{Currency::NONE},
       balance_{0},
-      type_{AccountType::NONE} {}
+      type_{AccountType::NONE},
+      flags_{AccountFlags::NONE} {}
 
 Account::Account(id_t id, Currency currency, string name, i32 balance,
-                 AccountType type)
+                 AccountType type, AccountFlags flags)
     : id_{id},
       currency_{currency},
       name_{name},
       balance_{balance},
-      type_{type} {}
+      type_{type},
+      flags_{flags} {}
 
 Account::Account(const Account& other)
     : id_(other.id_),
@@ -35,6 +41,7 @@ Account::Account(const Account& other)
       name_(other.name_),
       balance_(other.balance_),
       type_(other.type_),
+      flags_(other.flags_),
       mutex_{} {}
 
 Account::Account(Account&& other) noexcept
@@ -42,13 +49,14 @@ Account::Account(Account&& other) noexcept
       currency_(std::exchange(other.currency_, Currency::NONE)),
       name_(std::move(other.name_)),
       balance_(std::exchange(other.balance_, 0)),
-      type_(std::exchange(other.type_, AccountType::NONE)) {}
+      type_(std::exchange(other.type_, AccountType::NONE)),
+      flags_(std::exchange(other.flags_, AccountFlags::NONE)) {}
 
 // Comparison ops
 bool Account::operator==(const Account& other) const {
   return id_ == other.id_ && currency_ == other.currency_ &&
          name_ == other.name_ && balance_ == other.balance_ &&
-         type_ == other.type_;
+         type_ == other.type_ && flags_ == other.flags_;
 }
 
 bool Account::operator!=(const Account& other) const {
@@ -63,6 +71,7 @@ Account& Account::operator=(const Account& other) {
     name_ = other.name_;
     balance_ = other.balance_;
     type_ = other.type_;
+    flags_ = other.flags_;
   }
   return *this;
 }
@@ -74,6 +83,7 @@ Account& Account::operator=(Account&& other) noexcept {
     name_ = std::move(other.name_);
     balance_ = std::exchange(other.balance_, 0);
     type_ = std::exchange(other.type_, AccountType::NONE);
+    flags_ = std::exchange(other.flags_, AccountFlags::NONE);
   }
   return *this;
 }
@@ -99,8 +109,12 @@ AccountType Account::type() const {
   return type_;
 }
 
+bool Account::is_closed() const {
+  return bitmask_contains(flags_, AccountFlags::CANCELLED);
+}
+
 bool Account::is_valid() const {
-  return has_valid_balance() && has_valid_currency() && has_valid_type();
+  return !is_closed() && has_valid_id() && has_valid_balance() && has_valid_currency() && has_valid_type();
 }
 
 std::mutex& Account::get_mutex() {
@@ -146,7 +160,10 @@ std::ostream& operator<<(std::ostream& os, const Account& account) {
   os << "Id: " << account.id_
      << "; Currency: " << to_full_string(account.currency_) << ";\n";
   os << "Account type: " << to_string(account.type_)
-     << "; Balance:" << account.balance_;
+     << "; Balance: " << account.balance_ << ";\n"
+     << "Flags: CLOSED = " << account.is_closed()
+      ? '1' : '0';
+  os << '.';
   return os;
 }
 

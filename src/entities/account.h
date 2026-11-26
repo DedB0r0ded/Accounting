@@ -14,6 +14,7 @@ namespace accounting {
     string name_;
     i32 balance_;
     AccountType type_;
+    AccountFlags flags_;
     Currency currency_;
 
     std::mutex mutex_;
@@ -21,12 +22,14 @@ namespace accounting {
     bool has_valid_type() const;
     bool has_valid_currency() const;
     bool has_valid_balance() const;
+    bool has_valid_id() const;
 
   public:
     // ===== Ctors =====
 
     Account();
-    Account(id_t id, Currency currency, string name, i32 balance, AccountType type);
+   Account(id_t id, Currency currency, string name, i32 balance,
+           AccountType type, AccountFlags flags = AccountFlags::NONE);
     Account(const Account& other);
     Account(Account&& other) noexcept;
 
@@ -50,6 +53,7 @@ namespace accounting {
     i32 balance() const;
     AccountType type() const;
     Currency currency() const;
+    bool is_closed() const;
     bool is_valid() const;
     std::mutex& get_mutex();
 

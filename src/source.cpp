@@ -48,5 +48,7 @@ int main(char* argv[], int argc) {
   salary.commit();
   salary.commit();
 
+  std::cout << *job << NL << *alfa_byn;
+
   return 0;
 }
